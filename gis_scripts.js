@@ -631,7 +631,7 @@
 
     //polygon index must be an object with the same format as that returned by select_edit_line();
     function delete_polygon(layer_index, polygon_index) {
-        layer_list[layer_index].polygons_list.splice(polygon_index, 1);
+        layer_list[layer_index].polygons_list.splice(polygon_index.polygon, 1);
         recalculate_min_max();
     }
 

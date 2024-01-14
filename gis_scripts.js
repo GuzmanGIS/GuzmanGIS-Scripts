@@ -698,16 +698,16 @@
                 //add feature to ine list within layer if geometry type is line
                 if (feature.geometry.type == "LineString") {
                     layer_list[layer_index].lines_list.push(feature);
-                    for (var i = 0; i < feature.geometry.coordinates.length; i++){
-                        calculate_min_max(feature.geometry.coordinates[i][0], feature.geometry.coordinates[i][1]);
+                    for (var x = 0; x < feature.geometry.coordinates.length; x++){
+                        calculate_min_max(feature.geometry.coordinates[x][0], feature.geometry.coordinates[x][1]);
                     }
                 }
 
                 //add feature to polygons list within layer if geometry type is polygon
                 if (feature.geometry.type == "Polygon") {
                     layer_list[layer_index].polygons_list.push(feature);
-                    for (var i = 0; i < feature.geometry.coordinates.length; i++){
-                        calculate_min_max(feature.geometry.coordinates[i][0], feature.geometry.coordinates[i][1]);
+                    for (var x = 0; x < feature.geometry.coordinates.length; x++){
+                        calculate_min_max(feature.geometry.coordinates[x][0], feature.geometry.coordinates[x][1]);
                     }
                 }
             }
@@ -734,8 +734,3 @@
         }
         return JSON.stringify(GeoJSON);
     }
-
-
-
-
-

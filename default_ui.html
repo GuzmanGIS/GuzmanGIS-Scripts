@@ -1,0 +1,3410 @@
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <html lang="en">
+        <style>
+
+            html {
+                overflow: hidden;
+            }
+            body {
+                padding: 0px;
+                margin: 0px;
+                overflow: hidden;
+                font-family: sans-serif;
+                color: black;
+            }
+
+            button {
+                color:  black;
+            }
+
+            [type = text]{
+                    border-radius: 20px;
+                    border: 1px solid #707070;
+            }
+
+            textarea{
+                border-radius: 20px;
+                border: 1px solid #707070;
+            }
+
+            /* Styles input in manual_update_map_size */
+            .map_size{
+                max-width:60%;
+                border-radius: 20px;
+                border: 1px solid #707070;
+                height:2rem;
+            }
+
+            select{
+                border-radius: 20px;
+                width: 70%;
+            }
+
+            .row > select {
+                    flex-grow: 1;
+                    height: 2rem;
+                }
+
+            .row > input {
+                flex-grow: 1;
+                height: 2rem;
+            }
+
+            #description_collapse{
+                text-decoration: underline;
+                border: none;
+                background-color: #D6D6D6;
+                padding: 0.25rem;
+                cursor: pointer;
+            }
+
+            #description_expand{
+                text-decoration: underline;
+                border: none;
+                background-color: #D6D6D6;
+                padding: 0.25rem;
+                cursor: pointer;
+            }
+
+            #options_collapse, #options_collapse_edit{
+                border: none;
+                background-color: #D6D6D6;
+                align-items: flex-end;
+                cursor: pointer;
+            }
+
+            #options_expand, #options_expand_edit{
+                display: none;
+                border: none;
+                background-color: #D6D6D6;
+                align-items: flex-end;
+                cursor: pointer;
+
+            }           
+            
+            #row_spread{
+                display: flex;
+                justify-content: space-between
+            }
+
+            #row_spread_edit{
+                display: flex;
+                justify-content: space-between;
+                padding-top: 0.25rem;
+            }
+
+            #notification{
+                    display: none;
+                    /* width: 100%; */
+                    text-align: center;
+                    justify-content: center;
+                    padding-top: 0.25rem;
+                    padding-bottom: 0.25rem;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                }
+
+                #coordinates_for_editing > label > input {
+                    width:70%;
+                    border-radius: 20px;
+                    border: solid 1px #3D3D3D;
+                    height: 2rem;
+                }
+
+                .buttons_column{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    column-gap: 0.25rem;
+                    width: 50%;
+                }
+
+                #save_edits_button{
+                    background-color: #00B800;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    height: 1.5rem;
+                }
+
+                #exit_edits_button{
+                    background-color: #E6775C;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    height: 1.5rem;
+                }
+
+                #current_scale_reading_mobile{
+                    display: flex;
+                    justify-content: flex-end;
+                    font-size: 0.75rem;
+                    padding-right: 0.25rem;
+                    padding-top: 0.25rem;
+                    display: none;
+                    margin-bottom: -0.25rem;
+                }
+
+            /* Desktop */
+            @media only screen and (min-width:750px) {
+
+                .control_bar{
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                }
+
+                .canvaspanel{
+                    height: 100dvh;
+                    width: 100vw;
+                    background-color: #808080;
+                }
+
+                #gis_bar{
+                    background-color: #BFC3C9;
+                    display: grid;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    grid-template-columns: 1fr 1fr 1fr 1fr;
+                    padding: 0.25rem;
+                    grid-column-gap: 0.25rem;
+                    align-items: stretch;
+                }
+
+                #file_menu{
+                    display: none;
+                    background-color: #BFC3C9;
+                    align-items: flex-end;
+                    padding: 0.25rem;
+                    align-items: center;
+                }
+
+                #map_menu{
+                    display: none;
+                    background-color: #BFC3C9;
+                    align-items: flex-end;
+                    padding: 0.25rem;
+                    align-items: center;
+                }
+
+                #layers_menu{
+                    display: none;
+                    background-color: #BFC3C9;
+                    align-items: flex-end;
+                    padding: 0.25rem;
+                    align-items: center;
+                }
+
+                #draw_menu{
+                    display: none;
+                    background-color: #BFC3C9;
+                    align-items: flex-end;
+                    padding: 0.25rem;
+                    align-items: center;
+                }
+                
+                .back_section{
+                    align-items: end;
+                    padding-right: .5rem;
+                    border-right: solid 0.25rem #3D3D3D;
+                    font-family: sans-serif;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                #points_menu{
+                    display: none;
+                    border-left: solid 0.25rem #3D3D3D;
+                }
+
+                #lines_menu{
+                    display: none;
+                    border-left: solid 0.25rem #3D3D3D;
+                }
+
+                #polygons_menu{
+                    display: none;
+                    border-left: solid 0.25rem #3D3D3D;
+                }
+
+                #points_menu_back_section{
+                    display: none;
+                }
+
+                #lines_menu_back_section{
+                    display: none;
+                }
+
+                #polygons_menu_back_section{
+                    display: none;
+                }
+
+                .options{
+                    display: flex;
+                    align-items: flex-end;
+                    padding: 0.25rem;
+                    display: inline-flex;
+                    scroll-snap-type: x mandatory;
+                    overflow-x: scroll;
+                    scrollbar-width: none;
+                    align-items: center;
+                }
+
+                .options::-webkit-scrollbar{
+                    display: none;
+                }
+
+                .button_style_primary{
+                    background-color: #EFEFEF;
+                    border-radius: 10px;
+                    border: solid 1px #707070;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                    cursor: pointer;
+                }
+
+                .back_button {
+                    background-color: #EFEFEF;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    padding-top: 0.25rem;
+                    padding-bottom: 0.25rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                }
+                .back_button > svg {
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square {
+                    background-color: #EFEFEF;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square:focus{
+                    border: solid 4px #00FFEB;
+                    background-color: #CDFFFF;
+                }
+
+                .button_style_square_selected {
+                    border-radius: 20px;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                    border: solid 4px #00FFEB;
+                    background-color: #CDFFFF;
+                }
+
+                #image_upload {
+                    font-family: sans-serif;
+                    font-size: 0.5rem;
+                }
+
+                upload {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    scroll-snap-align: start;
+                }
+
+                .brightgreen_button{
+                    background-color: #77E904;
+                    border-radius: 20px;
+                    padding-left: .5rem;
+                    padding-right: 0.5rem;
+                    border: none;
+                    font-size: 0.5rem;
+                    cursor: pointer;
+                    margin-left: 0.5rem;
+                }
+
+                .button_style_square_create {
+                    background-color: #00B800;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_create:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_create_selected {
+                    background-color: #00B800;
+                    border-radius: 20px;
+                    border: solid 4px #00FFEB;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .purple{
+                   background-color: #800080;
+                }
+
+                .button_style_square_purple {
+                    background-color: #800080;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                    color: white;
+                }
+
+                .button_style_square_purple:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_blue {
+                    background-color: #9494FF;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_blue:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_blue_selected {
+                    background-color: #9494FF;
+                    border-radius: 20px;
+                    border: solid 4px #00FFEB;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_red {
+                    background-color: #E6775C;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_red:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_red_selected {
+                    background-color: #E6775C;
+                    border-radius: 20px;
+                    border: solid 4px #00FFEB;
+                    aspect-ratio: 1/1;
+                    height: 3.5rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .map_direction_buttons{
+                    display: none;
+                    position: fixed;
+                    bottom: 6rem;
+                    right:1rem;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    grid-template-rows: 1fr 1fr 1fr;
+                }
+
+                .map_button{
+                    border-radius: 20px;
+                    width: 2rem;
+                    height: 2rem;
+                    border: solid 1px #707070;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .scale_slider{
+                    display: none;
+                    position: fixed;
+                    bottom: 6rem;
+                    right:10rem;
+                }
+
+                #scale_buttons{
+                    display: none;
+                }
+
+                .manual_update_map_size{
+                    background-color: #D6D6D6;
+                    display: none;
+                    grid-template-columns: 1fr;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    border: 1px solid #707070;
+                    width: 100%;
+                }
+
+               .row_left{
+                    display: flex; 
+                }
+
+                #exit_button{
+                    background-color: #E6775C;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    width: 7rem;
+                    height: 1.5rem;
+                }
+
+                #save_button{
+                    background-color: #00B800;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    width: 7rem;
+                    height: 1.5rem;
+                }
+                                
+                .label{
+                    padding: .2rem;
+                }
+
+
+
+
+                #description{
+                    /* display: none; */
+                    border-radius: 20px;
+                }
+
+                
+
+
+                #delete_button{
+                    background-color: #E6775C;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    cursor: pointer;
+                }
+
+                .menu_overlays{
+                    position: fixed;
+                    top: 1rem;
+                    right: 2rem;
+                    width: 20rem;
+                }
+
+                .menu_overlays > div {
+                    margin-bottom: 0.5rem;
+                }
+
+                .layer_panel{
+                    background-color: #D6D6D6;
+                    display: none;
+                    gap: 0.25rem;
+                    border-radius: 10px;
+                    grid-template-columns: 1fr 2fr 0.5fr;
+                    padding: 0.5rem;
+                    border: solid 1px #707070;
+                    width: 100%;
+                }
+
+                .layers_in_panel{
+                    display: grid;
+                    grid-column: span 4;
+                    gap: 0.25rem;
+                    border-radius: 10px;
+                    grid-template-columns: 1fr 2fr 0.5fr;
+                    max-height: 15rem;
+                    overflow-x: auto;
+                }
+
+
+                .layer_panel > p{
+                    margin-block-start: 0;
+                    margin-block-end: 0;
+                }
+
+                input[type=checkbox] {
+                    height: 2rem;
+                    width: 2rem;
+                    cursor: pointer;
+                    justify-content: center;
+                }
+
+                .new_layer_button{
+                    background-color: #00B800;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    width: 100%;
+                    grid-column: span 4;
+                    height: 2rem;
+                    cursor: pointer;
+                }
+               
+                #draw_properties{
+                    background-color: #D6D6D6;
+                    display: none;
+                    justify-items: stretch;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    border: 1px solid #707070;
+                    width: 100%;
+                }
+
+                #edit_menu{
+                    background-color: #D6D6D6;
+                    display: none;
+                    justify-items: stretch;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    border: 1px solid #707070;
+                    width: 100%;
+                }
+
+                .row{
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding-bottom: .5rem;
+                    max-width: 20rem;
+                }
+
+    
+                .label_small{
+                    font-size: 8pt;
+                    display: inline-flex;
+                }
+
+            /* Mobile  */
+             @media only screen and (max-width:749px) {
+
+                input{
+                    font-size:16px;
+                }
+
+                textarea{
+                    font-size: 16px;
+                }
+
+                :root {
+                    touch-action: pan-x pan-y;
+                    height: 100% 
+                }
+
+                [type = text]{
+                    border-radius: 20px;
+                    border: 1px solid #707070;
+                }
+
+               select{
+                    border-radius: 20px;
+                    width: 70%;
+                }
+
+                .control_bar{
+                    position: fixed;
+                    bottom: 0;
+                    width: 100vw;
+                }
+
+                #gis_bar {
+                    background-color: #BFC3C9;
+                    display: grid;
+                    justify-content: space-evenly;
+                    grid-template-columns: 1fr 1fr 1fr 1fr;
+                    padding: 0.25rem;
+                    grid-column-gap: 0.25rem;
+                    align-items: stretch;
+                }
+
+                #file_menu {
+                    background-color: #BFC3C9;
+                    display: none;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    padding: 0.25rem;
+                }
+
+                #test{
+                    display: grid;
+                    grid-template-rows: 1fr 1fr;
+                }
+
+                .back_section{
+                    display: inline-flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    flex-direction: row-reverse;
+                    border-bottom: solid 0.25rem #3D3D3D;
+                    align-items: center;
+                    padding-top: 0.25rem;
+                    padding-bottom: 0.25rem;
+                    font-family: sans-serif;
+                }
+
+                #points_menu{
+                    display: none;
+                }
+
+                #lines_menu{
+                    display: none;
+                }
+
+                #polygons_menu{
+                    display: none;
+                }
+
+                #points_menu_back_section{
+                    display: none;
+                }
+                #lines_menu_back_section{
+                    display: none;
+                }
+                #polygons_menu_back_section{
+                    display: none;
+                }
+
+                #top_row_mobile{
+                    display:flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .options{
+                    padding: 0.25rem;
+                    display: inline-flex;
+                    scroll-snap-type: x mandatory;
+                    overflow-x: scroll;
+                    scrollbar-width: none;
+                    width: 100%;
+                }
+
+                .options::-webkit-scrollbar{
+                    display: none;
+                }
+                
+                #map_menu {
+                    background-color: #BFC3C9;
+                    display: none;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    padding: 0.25rem;
+                    overflow: hidden;
+                }
+
+                #layers_menu {
+                    background-color: #BFC3C9;
+                    display: none;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    padding: 0.25rem;
+                    overflow: hidden;
+                }
+
+                #draw_menu {
+                    background-color: #BFC3C9;
+                    display: none;
+                    align-items: flex-start;
+                    flex-direction: column;
+                    padding: 0.25rem;
+                    overflow: hidden;
+                }
+
+                #points_menu_back_section{
+                    display: none;
+                }
+
+                #lines_menu_back_section{
+                    display: none;
+                }
+
+                #polygon_menu_back_section{
+                    display: none;
+                }
+
+                .button_style_primary {
+                    background-color: #EFEFEF;
+                    border-radius: 10px;
+                    border: solid 1px #707070;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                }
+
+                .back_button {
+                    background-color: #EFEFEF;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    padding: 0.25rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .back_button > svg {
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square {
+                    background-color: #EFEFEF;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square:focus{
+                    border: solid 4px #00FFEB;
+                    background-color: #CDFFFF;
+                }
+
+                .button_style_square_selected {
+                    border-radius: 20px;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                    border: solid 4px #00FFEB;
+                    background-color: #CDFFFF;
+                }
+
+                .button_style_square_create {
+                    background-color: #00B800;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_create:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_create_selected {
+                    background-color: #00B800;
+                    border-radius: 20px;
+                    border: solid 4px #00FFEB;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_purple {
+                    background-color: #800080;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                    color: white;
+                }
+
+                .button_style_square_purple:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_blue {
+                    background-color: #9494FF;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_blue:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_blue_selected {
+                    background-color: #9494FF;
+                    border-radius: 20px;
+                    border: solid 4px #00FFEB;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_red {
+                    background-color: #E6775C;
+                    border-radius: 20px;
+                    border: solid 1px #707070;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                .button_style_square_red:focus{
+                    border: solid 4px #00FFEB;
+                }
+
+                .button_style_square_red_selected {
+                    background-color: #E6775C;
+                    border-radius: 20px;
+                    border: solid 4px #00FFEB;
+                    aspect-ratio: 1/1;
+                    height: 4rem;
+                    font-size: 0.5rem;
+                    display: none;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    scroll-snap-align: start;
+                    margin-right: 0.25rem;
+                }
+
+                #image_upload {
+                    font-family: sans-serif;
+                    font-size: 0.5rem;
+                }
+
+                upload {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    scroll-snap-align: start;
+                }
+
+                .brightgreen_button{
+                    background-color: #77E904;
+                    border-radius: 20px;
+                    padding-left: .5rem;
+                    padding-right: 0.5rem;
+                    border: none;
+                    font-size: 0.5rem;
+                    cursor: pointer;
+                    margin-left: 0.5rem;
+                }
+
+                .stack{
+                    display: grid;
+                    grid-template-columns: 1fr;
+                }
+
+                .map_direction_buttons{
+                    display: none;
+                    position: fixed;
+                    bottom: 10rem;
+                    right:1rem;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    grid-template-rows: 1fr 1fr 1fr;
+                }
+
+                .map_button{
+                    border-radius: 20px;
+                    width: 2rem;
+                    height: 2rem;
+                    border: solid 1px #707070;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .scale_slider{
+                    display: none;
+                    position: fixed;
+                    bottom: 10rem;
+                    right:10rem;
+                }
+
+                #scale_buttons{
+                    display: none;
+                    position: fixed;
+                    bottom: 10rem;
+                    left: 1rem;
+                }
+
+                #scale_button_up{
+                    width: 2rem;
+                    height: 2.5rem;
+                    border-top-right-radius: 20px;
+                    border-top-left-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    border: solid 1px #707070;
+                }
+
+                #scale_button_down{
+                    margin-top: .25rem;
+                    width: 2rem;
+                    height: 2.5rem;
+                    border-bottom-right-radius: 20px;
+                    border-bottom-left-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    border: solid 1px #707070;
+                }
+
+                .manual_update_map_size{
+                    background-color: #D6D6D6;
+                    display: none;
+                    grid-template-columns: 1fr;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    border: 1px solid #707070;
+                }
+
+                .row_left{
+                    display: flex;
+                }
+
+                #exit_button{
+                    background-color: #E6775C;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    width: 7rem;
+                    height: 1.5rem;
+                }
+
+                #save_button{
+                    background-color: #00B800;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    width: 7rem;
+                    height: 1.5rem;
+                }
+
+                .label{
+                    padding: .2rem;
+                }
+
+                #delete_button{
+                    background-color: #E6775C;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    cursor: pointer;
+                }
+
+                .menu_overlays{
+                    position: fixed;
+                    top: 1rem;
+                    right: 1rem;
+                    left: 1rem;
+                    max-height: 50dvh;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                }
+
+                .menu_overlays > div {
+                    margin-bottom: 0.25rem;
+                }
+               
+                .layer_panel{
+                    background-color: #D6D6D6;
+                    display: none;
+                    gap: 0.25rem;
+                    border-radius: 10px;
+                    grid-template-columns: 1fr 2fr 0.5fr;
+                    padding: 0.25rem;
+                    border: solid 1px #707070;
+                    /* width: 20rem; */
+                }
+
+                .layers_in_panel{
+                    display: grid;
+                    grid-column: span 4;
+                    gap: 0.25rem;
+                    border-radius: 10px;
+                    grid-template-columns: 1fr 2fr 0.5fr;
+                    max-height: 18rem;
+                    overflow-x: auto;
+                }
+
+                .layer_panel > p{
+                    margin-block-start: 0;
+                    margin-block-end: 0;
+                }
+
+                input[type=checkbox] {
+                    height: 2rem;
+                    width: 2rem;
+                    cursor: pointer;
+                }
+
+                .new_layer_button{
+                    background-color: #00B800;
+                    border: solid 1px #707070;
+                    border-radius: 20px;
+                    grid-column: span 4;
+                    height: 2rem;
+                   
+                }
+
+                #draw_properties{
+                    background-color: #D6D6D6;
+                    display: none;
+                    justify-items: stretch;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    border: 1px solid #707070;
+                }
+
+                #edit_menu{
+                    background-color: #D6D6D6;
+                    display: none;
+                    justify-items: stretch;
+                    padding: .5rem;
+                    border-radius: 10px;
+                    border: 1px solid #707070;
+                }
+
+                .row{
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding-bottom: .5rem;
+                    max-width: 20rem;
+                }
+
+                .label_small{
+                    font-size: 8pt;
+                    display: inline-flex;
+                }
+
+        </style>
+    </head>
+
+    <body>
+
+        <div class="canvaspanel" id="canvaspanel">
+            <canvas></canvas>
+        </div>
+
+        <div class = "menu_overlays">
+
+            <div id = 'draw_properties'>
+                <div id = "collapsible">
+                    <div class = 'row' id = 'layer'>
+                        <div class = 'label'> Layer : </div>
+                        <select id = 'layer_dropdown' onchange = "update_layer_from_dropdown();" aria-label = "layer selection dropdown">
+                            <!-- <option value="">Choose an option</option> -->
+                        </select>   
+                    </div>
+                    <div class = 'row' id = 'label_options'>
+                        <div class = 'label'> Label : </div> 
+                        <input type='text' id = 'label' aria-label = "label"> 
+                    </div>
+                    <div class = 'row' id = 'color_options'>
+                        <div class = 'label'> Color : </div>
+                        <input type='text' id = 'color' value = #000000 aria-label = "color"></input>
+                    </div>
+                    <div class = 'row' id = 'description'>
+                        <button id = 'description_expand' onclick='description_toggle(false)'> Description + </button>
+                        <button id = 'description_collapse' onclick='description_toggle(true)'> Description - </button> 
+                    </div>  
+                    <textarea id = 'description_textarea' rows = '2' cols='15' aria-label = "description"></textarea>
+                </div>
+                <div class ='row' id = 'row_spread' >
+                    <div class = 'column'>
+                        <div class='label_small' id = 'current_coordinates'>
+                            Current Coordinates : 
+                            <div id = 'x_coordinate'>X</div>,
+                            <div id = 'y_coordinate'>Y</div>,
+                            <div id = 'z_coordinate'>Z</div>
+                        </div>
+                        <div class='label_small' id = 'layer_info'>
+                            Current Layer: 
+                            <div id = 'current_layer' style = "padding-left: 0.25rem;"></div>
+                        </div>
+                    </div>
+                    <button id = 'options_collapse' onclick='options_toggle(true)'> 
+                        Minimize  
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+                            <path id="Polygon_7" data-name="Polygon 7" d="M20,0,40,20H0Z" fill="#3d3d3d"/>
+                        </svg>                          
+                    </button> 
+                    <button id = 'options_expand' onclick='options_toggle(false)'> 
+                        More Options 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+                            <path id="Polygon_7" data-name="Polygon 7" d="M20,0,40,20H0Z" transform="translate(40 20) rotate(180)" fill="#3d3d3d"/>
+                        </svg>                          
+                    </button> 
+                </div>
+            </div>
+
+            <div id = 'edit_menu'>
+                <div id = "optional_title" class = "label_small"></div>
+                <div id = "collapsible_edit">
+                    <div class = 'row' id = 'layer_edit'>
+                        <div class = 'label'> Layer : </div>
+                        <select id = 'layer_dropdown_edit' aria-label = "layer selection dropdown">
+                        </select>   
+                    </div>
+                    <div class = 'row' id = 'label_options_edit'>
+                        <div class = 'label'> Label : </div> 
+                        <input type='text' id = 'label_edit' aria-label = "label"> 
+                    </div>
+                    <div class = 'row' id = 'color_options_edit'>
+                        <div class = 'label'> Color : </div>
+                        <input type='text' id = 'color_edit' value = #000000 aria-label = :color></input>
+                    </div>
+                    <div class = 'row' id = "coordinates_for_editing" style = "display:grid;grid-template-columns:1fr 1fr 1fr;">
+                        <label style = "display:inline-flex;width: 100%;justify-content: space-around; align-items:center;">
+                            X:
+                            <input type='number' id = 'x_coordinate_edit' aria-label = "x coordinate"></input>
+                        </label>
+                        <label style = "display:inline-flex;width: 100%; justify-content: space-around; align-items:center;">
+                            Y: 
+                            <input type='number' id = 'y_coordinate_edit' aria-label = "y coordinate"></input>
+                        </label>
+                        <label style = "display:inline-flex;width: 100%; justify-content: space-around; align-items:center;">
+                            Z: 
+                            <input type='number' id = 'z_coordinate_edit' aria-label = "z coordinate"></input>
+                        </label>
+                    </div>
+                    <div class = 'row' id = 'description_edit'>
+                        <div class = 'label'>Description: </div>
+                    </div>  
+                    <textarea id = 'description_textarea_edit' rows = '2' cols='15' aria-label = 'description'></textarea>
+                </div>
+                <div class ='row' id = 'row_spread_edit' >
+                    <div class = 'buttons_column'>
+                        <button id = "save_edits_button" onclick = 'save_edits_to_point();'>Save</button>
+                        <button id = "exit_edits_button" onclick = "exit_point_edit_menu();">Exit</button>
+                    </div>
+                    <button id = 'options_collapse_edit' onclick='options_toggle_edit(true)'> 
+                        Minimize  
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+                            <path id="Polygon_7" data-name="Polygon 7" d="M20,0,40,20H0Z" fill="#3d3d3d"/>
+                        </svg>                          
+                    </button> 
+                    <button id = 'options_expand_edit' onclick='options_toggle_edit(false)'> 
+                        More Options 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">
+                            <path id="Polygon_7" data-name="Polygon 7" d="M20,0,40,20H0Z" transform="translate(40 20) rotate(180)" fill="#3d3d3d"/>
+                        </svg>                          
+                    </button> 
+                </div>
+            </div>
+
+            <div class = 'layer_panel' id = 'layer_panel'>
+                <p> Layers</p>
+                <div></div>
+                <p style = 'font-size: 0.75rem; text-align:center;'> Show Labels </p>
+                <div class = 'layers_in_panel' id = 'layers_in_panel'></div>
+                <button class='new_layer_button' onclick = 'create_layer_refresh()'> New Layer</button>
+            </div>
+
+            <div class = "manual_update_map_size" id="manual_update_map_size">
+                <div class='row_left'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 23 23" onclick = "map_size(false)" style = "cursor:pointer;">
+                        <g id="Polygon_5" data-name="Polygon 5" transform="translate(0 23) rotate(-90)" fill="#6f6f6f">
+                          <path d="M 22.19098472595215 22.5 L 0.8090149760246277 22.5 L 11.5 1.118029952049255 L 22.19098472595215 22.5 Z" stroke="none"/>
+                          <path d="M 11.5 2.23607063293457 L 1.618034362792969 22 L 21.38196563720703 22 L 11.5 2.23607063293457 M 11.5 0 L 23 23 L 0 23 L 11.5 0 Z" stroke="none" fill="#707070"/>
+                        </g>
+                    </svg>
+                    <div class = 'label'>
+                        Manual Update Map Size
+                    </div>
+                </div>
+                <div class='row'>
+                    <label style = "display:inline-flex;width: 50%;justify-content: space-around;align-content:center;">
+                        Map <br>Width: 
+                        <input class='map_size' type="number" id = 'map_width_setting' aria-label = "map width">
+                    </label>
+                    <label style = "display:inline-flex;width: 50%;justify-content: space-around;align-content:center;">
+                        Map <br>Height: 
+                        <input class='map_size' type="number" id = "map_height_setting" aria-label = "map height">
+                    </label>
+                </div>
+                 <div class='row'>
+                    <label style = "display:inline-flex;width: 50%;justify-content: space-around;align-content:center;">
+                        Start X: 
+                        <input class='map_size' type="number" id = 'starting_coordinate_x' aria-label = 'starting x coordinate'>
+                    </label>
+                    <label style = "display:inline-flex;width: 50%;justify-content: space-around;align-content:center;">
+                        Start Y:
+                        <input class='map_size' type="number" id = 'starting_coordinate_y' aria-label = 'starting y coordinate'>
+                    </label>
+                </div>
+                <div class='row'>
+                    <button id ='exit_button' onclick = 'map_size(false)' style = 'margin-right: 0.25rem;'>Exit</button>
+                    <button  id ='save_button' onclick = 'save_map_size()'>Save</button>
+                </div> 
+            </div>
+
+        </div>
+
+        <div class='scale_slider' id ='scale_slider'>
+            <input type='range' id='scale' min = '0.1' max = '10' step = '0.1' value = '1' aria-label = 'scale slider'>
+            <div>
+                Current Scale : 
+                <output id = 'current_scale_reading_desktop' ></output>
+            </div>
+        </div>
+
+        <div id='scale_buttons'>
+            <button id='scale_button_up' onclick = 'set_scale_by_increment_up()' aria-label = "scale up">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                    <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                      <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                    </g>
+                  </svg>
+                  
+            </button>
+            <button id='scale_button_down' onclick = 'set_scale_by_increment_down()' aria-label = "scale down">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="3" viewBox="0 0 23.845 3">
+                    <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(23.845) rotate(90)" fill="#3d3d3d"/>
+                  </svg>
+            </button>
+            <div id = 'current_scale_reading_mobile'>100%</div>
+        </div>
+
+        <div class='map_direction_buttons' id = 'map_direction_buttons'>
+            <div></div>
+            <button class='map_button' onclick = 'direction_up();' aria-label = "up">
+                <svg style = "transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" width="13.66" height="20.057" viewBox="0 0 13.66 20.057">
+                    <g id="Group_77" data-name="Group 77" transform="translate(-816.407 -901.155) ">
+                      <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                    </g>
+                </svg>
+            </button>
+            <div></div>
+            <button class='map_button' onclick = 'direction_left();' aria-label = "left">
+                <svg style = "transform: rotate(90deg)" xmlns="http://www.w3.org/2000/svg" width="13.66" height="20.057" viewBox="0 0 13.66 20.057">
+                    <g id="Group_77" data-name="Group 77" transform="translate(-816.407 -901.155) ">
+                      <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                    </g>
+                </svg>
+            </button>
+            <div></div>
+            <button class='map_button' onclick = 'direction_right();' aria-label = "right">
+                <svg style = "transform: rotate(-90deg)" xmlns="http://www.w3.org/2000/svg" width="13.66" height="20.057" viewBox="0 0 13.66 20.057">
+                    <g id="Group_77" data-name="Group 77" transform="translate(-816.407 -901.155) ">
+                      <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                    </g>
+                </svg>
+            </button>
+            <div></div>
+            <button class='map_button' onclick = 'direction_down();' aria-label = "down">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13.66" height="20.057" viewBox="0 0 13.66 20.057">
+                    <g id="Group_77" data-name="Group 77" transform="translate(-816.407 -901.155) ">
+                      <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                      <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                    </g>
+                </svg>
+            </button>
+            <div></div>
+        </div>
+
+        <div class = "control_bar" id = 'control_bar'>
+            <div id = 'notification'></div>
+            <div id = 'gis_bar'>
+                <button class = 'button_style_primary' onclick="show_file_menu(true)">File</button>
+                <button class = 'button_style_primary' onclick="show_map_menu(true)">Map controls</button>        
+                <button class = 'button_style_primary' onclick="show_layers_menu(true)">Layers</button>        
+                <button class = 'button_style_primary' onclick="show_draw_menu(true)">Draw</button>                
+            </div>
+
+            <div id = 'file_menu'>
+                <div class = 'back_section'>
+                    <div> File Menu</div>
+                    <button class = "back_button" onclick="show_file_menu(false)"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                              <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                          </svg>
+                          
+                        Back
+                    </button>
+                </div>
+                <div class='options'>
+                    <button class = "button_style_square" onclick='window.open("/table", "_blank")'>View Table</button>
+                    <button class = "button_style_square" onclick = 'export_data();'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15.832" height="23.845" viewBox="0 0 15.832 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(0)">
+                              <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="19" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_45" data-name="Rectangle 45" width="3" height="9.508" rx="1.5" transform="translate(12.662 11.161) rotate(45)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_46" data-name="Rectangle 46" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 1.122, 13.21)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_47" data-name="Rectangle 47" width="3" height="15.832" rx="1.5" transform="translate(15.832 20.845) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                          </svg>
+                          
+                        Download GeoJSON
+                    </button>
+                    <label
+                     for="file_upload" class = "button_style_square" style = "text-align: center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15.832" height="23.845" viewBox="0 0 15.832 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(15.832 23.845) rotate(180)">
+                              <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="19" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_45" data-name="Rectangle 45" width="3" height="9.508" rx="1.5" transform="translate(12.662 11.161) rotate(45)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_46" data-name="Rectangle 46" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 1.122, 13.21)" fill="#3d3d3d"/>
+                              <rect id="Rectangle_47" data-name="Rectangle 47" width="3" height="15.832" rx="1.5" transform="translate(15.832 20.845) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                          </svg>
+                          
+                        Upload GeoJSON
+                    </label>
+                    <input type="file" id="file_upload" onchange = "upload_data();" style = "display:none;"></input>
+
+                    <upload>
+                        <label style = "font-family: sans-serif; font-size: 0.5rem;" for="image_upload">                              Upload image    </label>
+                        <input type="file" id="image_upload"></input>
+                    </upload>
+
+                </div>
+            </div>
+
+            <div id = 'map_menu'>
+                <div class = 'back_section'>
+                    <div> Map Control Menu</div>
+                    <button class = "back_button" onclick="show_map_menu(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                            <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Back
+                    </button>
+                </div>
+                <div class='options'>
+                    <button class = "button_style_square" id = 'show_map_direction_buttons' onclick="map_direction_buttons(true)">Show Direction Menu</button>
+                    <button class = "button_style_square_selected" id = "hide_map_direction_buttons" onclick="map_direction_buttons(false)">Show Direction Menu</button>
+
+                    <button class = "button_style_square" id = 'show_scale_slider' onclick="scale_slider(true)">Show Scale Menu</button>
+                    <button class = "button_style_square_selected" id = 'hide_scale_slider' onclick="scale_slider(false)">Show Scale Menu</button>
+
+                    <button class = "button_style_square" onclick = 'auto_scale_map()'>Auto Scale Map</button>
+
+                    <button class = "button_style_square" id = "show_map_size" onclick = "map_size(true)" >Set Map Size</button>
+                    <button class = "button_style_square_selected" id = "hide_map_size"  onclick = "map_size(false)" >Set Map Size</button>
+                </div>
+            </div>
+
+            <div id = 'layers_menu'>
+                <div class = 'back_section'>
+                    <div> Layers Menu</div>
+                    <button class = "back_button" onclick = "show_layers_menu(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                            <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Back
+                    </button>
+                </div>
+                <div class='options'>
+                    <button class = "button_style_square" id = 'show_layer_panel' onclick = "show_layer_panel(true)">View Layer Panel</button>
+                    <button class = "button_style_square_selected" id = 'hide_layer_panel' onclick = "show_layer_panel(false)">View Layer Panel</button>
+                </div>
+            </div>
+
+            <div id = 'draw_menu'>
+                <div class = 'back_section' id = "draw_menu_back_section">
+                    <div> Draw Menu</div>
+                    <button class = "back_button" onclick="show_draw_menu(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                            <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                    Back
+                    </button>
+                </div>
+
+                <div class='options' id = 'draw_menu_options'>
+                    <button class = "button_style_square" id = 'show_point_menu' onclick='show_points_menu(true)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+                            <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" fill="#6f6f6f"/>
+                        </svg>
+                        Points
+                    </button>
+
+                    <button class = "button_style_square_selected" id = 'hide_point_menu' onclick='show_points_menu(false)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+                            <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" fill="#6f6f6f"/>
+                        </svg>
+                        Points
+                    </button>
+
+
+                    <button class = "button_style_square" id = 'show_line_menu' onclick ='show_lines_menu(true)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24">
+                            <g id="Group_128" data-name="Group 128" transform="translate(-11.34 -5)">
+                            <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11.34 19)" fill="#6f6f6f"/>
+                            <circle id="Ellipse_14" data-name="Ellipse 14" cx="5" cy="5" r="5" transform="translate(27.34 5)" fill="#6f6f6f"/>
+                            <circle id="Ellipse_15" data-name="Ellipse 15" cx="5" cy="5" r="5" transform="translate(43.34 13)" fill="#6f6f6f"/>
+                            <line id="Line_10" data-name="Line 10" y1="14" x2="16" transform="translate(16.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                            <line id="Line_11" data-name="Line 11" x1="17" y1="8" transform="translate(32.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                            </g>
+                        </svg>
+                        Lines
+                    </button>
+                    <button class = "button_style_square_selected" id = 'hide_line_menu' onclick ='show_lines_menu(false)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="24" viewBox="0 0 42 24">
+                            <g id="Group_128" data-name="Group 128" transform="translate(-11.34 -5)">
+                            <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11.34 19)" fill="#6f6f6f"/>
+                            <circle id="Ellipse_14" data-name="Ellipse 14" cx="5" cy="5" r="5" transform="translate(27.34 5)" fill="#6f6f6f"/>
+                            <circle id="Ellipse_15" data-name="Ellipse 15" cx="5" cy="5" r="5" transform="translate(43.34 13)" fill="#6f6f6f"/>
+                            <line id="Line_10" data-name="Line 10" y1="14" x2="16" transform="translate(16.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                            <line id="Line_11" data-name="Line 11" x1="17" y1="8" transform="translate(32.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                            </g>
+                        </svg>
+                        Lines
+                    </button>
+
+                    <button class = "button_style_square" id = 'show_polygon_menu' onclick='show_polygons_menu(true)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="29" viewBox="0 0 42 29">
+                            <g id="Group_128" data-name="Group 128" transform="translate(-11.34 -5)">
+                            <g id="Group_130" data-name="Group 130">
+                                <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11.34 19)" fill="#6f6f6f"/>
+                                <circle id="Ellipse_14" data-name="Ellipse 14" cx="5" cy="5" r="5" transform="translate(27.34 5)" fill="#6f6f6f"/>
+                                <circle id="Ellipse_15" data-name="Ellipse 15" cx="5" cy="5" r="5" transform="translate(43.34 24)" fill="#6f6f6f"/>
+                                <line id="Line_10" data-name="Line 10" y1="14" x2="16" transform="translate(16.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                                <line id="Line_11" data-name="Line 11" x1="16" y1="19" transform="translate(32.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                                <line id="Line_12" data-name="Line 12" x1="33" y1="5" transform="translate(15.84 24.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                            </g>
+                            </g>
+                        </svg>
+                        Polygons
+                    </button>
+                    <button class = "button_style_square_selected" id = 'hide_polygon_menu' onclick='show_polygons_menu(false)'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="29" viewBox="0 0 42 29">
+                            <g id="Group_128" data-name="Group 128" transform="translate(-11.34 -5)">
+                            <g id="Group_130" data-name="Group 130">
+                                <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11.34 19)" fill="#6f6f6f"/>
+                                <circle id="Ellipse_14" data-name="Ellipse 14" cx="5" cy="5" r="5" transform="translate(27.34 5)" fill="#6f6f6f"/>
+                                <circle id="Ellipse_15" data-name="Ellipse 15" cx="5" cy="5" r="5" transform="translate(43.34 24)" fill="#6f6f6f"/>
+                                <line id="Line_10" data-name="Line 10" y1="14" x2="16" transform="translate(16.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                                <line id="Line_11" data-name="Line 11" x1="16" y1="19" transform="translate(32.84 10.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                                <line id="Line_12" data-name="Line 12" x1="33" y1="5" transform="translate(15.84 24.5)" fill="none" stroke="#707070" stroke-width="4"/>
+                            </g>
+                            </g>
+                        </svg>
+                        Polygons
+                    </button>
+
+                </div>
+
+                <div class = 'back_section' id = "points_menu_back_section">
+                    <div> Points Menu</div>
+                    <button class = "back_button" onclick="show_points_menu(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                            <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Back
+                    </button>
+                </div>
+
+                <div id='points_menu' class = 'options'>
+
+                    <button class = 'button_style_square_create' id = "create_point_selection" onclick = "set_create_point(true);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                                <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                                <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Create
+                    </button>
+
+                    <button class = 'button_style_square_create_selected' id = "create_point_deselection" onclick = "set_create_point(false);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                                <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                                <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Create
+                    </button>
+
+                    <button class = "button_style_square_purple" onclick = "gps_create_point_ui();"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="25" viewBox="0 0 23.845 25">
+                            <g id="Group_93" data-name="Group 93" transform="translate(-1624.279 -889)">
+                            <g id="Group_71" data-name="Group 71" transform="translate(1628.285 890.155)">
+                                <rect id="Rectangle_61" data-name="Rectangle 61" width="3" height="23.845" rx="1.5" transform="translate(19.838 20.845) rotate(90)" fill="#fff"/>
+                            </g>
+                            <path id="Exclusion_1" data-name="Exclusion 1" d="M-9410.972,20h0a61.054,61.054,0,0,1-3.529-5.24c-1.6-2.648-3.5-6.317-3.5-8.76a7.091,7.091,0,0,1,.552-2.93,4.533,4.533,0,0,1,1.507-1.841A8.4,8.4,0,0,1-9410.972,0,8.41,8.41,0,0,1-9406,1.229,4.539,4.539,0,0,1-9404.5,3.07a7.1,7.1,0,0,1,.553,2.93c0,2.43-1.894,6.09-3.481,8.732A60.472,60.472,0,0,1-9410.971,20Zm-.061-16a3.162,3.162,0,0,0-3.114,3.2,3.161,3.161,0,0,0,3.114,3.2,3.161,3.161,0,0,0,3.114-3.2A3.162,3.162,0,0,0-9411.032,4Z" transform="translate(11046.971 889)" fill="#fff"/>
+                            </g>
+                        </svg>
+                        GPS Create 
+                    </button>
+                    <button class = 'button_style_square_blue' id = "edit_point_selection" onclick = "set_edit_point(true);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.105" height="19.105" viewBox="0 0 19.105 19.105">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.387 -4.474) rotate(45)">
+                            <path id="Path_4" data-name="Path 4" d="M1.5,0A1.5,1.5,0,0,1,3,1.5l.085,19.322c0,.828-1.558,3.024-1.585,3.023S-.089,21.467-.089,20.638L0,1.5A1.5,1.5,0,0,1,1.5,0Z" transform="translate(6.416)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Edit 
+                    </button>
+
+                    <button class = 'button_style_square_blue_selected' id = "edit_point_deselection" onclick = "set_edit_point(false);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.105" height="19.105" viewBox="0 0 19.105 19.105">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.387 -4.474) rotate(45)">
+                            <path id="Path_4" data-name="Path 4" d="M1.5,0A1.5,1.5,0,0,1,3,1.5l.085,19.322c0,.828-1.558,3.024-1.585,3.023S-.089,21.467-.089,20.638L0,1.5A1.5,1.5,0,0,1,1.5,0Z" transform="translate(6.416)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Edit 
+                    </button>
+
+                    <button class = 'button_style_square_red' id = 'delete_point_selection' onclick = "set_delete_point(true);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete 
+                    </button>
+
+                    <button class = 'button_style_square_red_selected' id = 'delete_point_deselection' onclick = "set_delete_point(false);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete 
+                    </button>
+
+                </div>
+
+                <div class = 'back_section' id = "lines_menu_back_section">
+                    <div> Lines Menu</div>
+                    <button class = "back_button" onclick="show_lines_menu(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                            <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Back
+                    </button>
+                </div>
+
+                <div id='lines_menu' class = 'options'>
+                    <button class = 'button_style_square_create' id = "create_line_selection" onclick = "set_create_line(true);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Create 
+                    </button>
+                    <button class = 'button_style_square_create_selected' id = "create_line_deselection" onclick = "set_create_line(false);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Create 
+                    </button>
+                    <button class = "button_style_square_purple" onclick = "gps_create_line_ui()"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="25" viewBox="0 0 23.845 25">
+                            <g id="Group_93" data-name="Group 93" transform="translate(-1624.279 -889)">
+                              <g id="Group_71" data-name="Group 71" transform="translate(1628.285 890.155)">
+                                <rect id="Rectangle_61" data-name="Rectangle 61" width="3" height="23.845" rx="1.5" transform="translate(19.838 20.845) rotate(90)" fill="#fff"/>
+                              </g>
+                              <path id="Exclusion_1" data-name="Exclusion 1" d="M-9410.972,20h0a61.054,61.054,0,0,1-3.529-5.24c-1.6-2.648-3.5-6.317-3.5-8.76a7.091,7.091,0,0,1,.552-2.93,4.533,4.533,0,0,1,1.507-1.841A8.4,8.4,0,0,1-9410.972,0,8.41,8.41,0,0,1-9406,1.229,4.539,4.539,0,0,1-9404.5,3.07a7.1,7.1,0,0,1,.553,2.93c0,2.43-1.894,6.09-3.481,8.732A60.472,60.472,0,0,1-9410.971,20Zm-.061-16a3.162,3.162,0,0,0-3.114,3.2,3.161,3.161,0,0,0,3.114,3.2,3.161,3.161,0,0,0,3.114-3.2A3.162,3.162,0,0,0-9411.032,4Z" transform="translate(11046.971 889)" fill="#fff"/>
+                            </g>
+                        </svg>
+                        GPS Create 
+                    </button>
+                    <button class = 'button_style_square_blue' id = "edit_line_selection" onclick = "set_edit_line(true);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.105" height="19.105" viewBox="0 0 19.105 19.105">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.387 -4.474) rotate(45)">
+                            <path id="Path_4" data-name="Path 4" d="M1.5,0A1.5,1.5,0,0,1,3,1.5l.085,19.322c0,.828-1.558,3.024-1.585,3.023S-.089,21.467-.089,20.638L0,1.5A1.5,1.5,0,0,1,1.5,0Z" transform="translate(6.416)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Edit 
+                    </button>
+                    <button class = 'button_style_square_blue_selected' id = "edit_line_deselection" onclick = "set_edit_line(false);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.105" height="19.105" viewBox="0 0 19.105 19.105">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.387 -4.474) rotate(45)">
+                            <path id="Path_4" data-name="Path 4" d="M1.5,0A1.5,1.5,0,0,1,3,1.5l.085,19.322c0,.828-1.558,3.024-1.585,3.023S-.089,21.467-.089,20.638L0,1.5A1.5,1.5,0,0,1,1.5,0Z" transform="translate(6.416)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Edit 
+                    </button>
+                    <button class = 'button_style_square_red' onclick = "end_line_ui()"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.84" height="23.84" viewBox="0 0 23.84 23.84">
+                            <g id="Group_264" data-name="Group 264" transform="translate(-17.879 -4.16)">
+                            <g id="Ellipse_12" data-name="Ellipse 12" transform="translate(17.879 4.16)" fill="none" stroke="#3d3d3d" stroke-width="3">
+                                <circle cx="11.92" cy="11.92" r="11.92" stroke="none"/>
+                                <circle cx="11.92" cy="11.92" r="10.42" fill="none"/>
+                            </g>
+                            <rect id="Rectangle_62" data-name="Rectangle 62" width="3" height="23.845" rx="1.5" transform="translate(37.169 6.589) rotate(45)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        End Line 
+                    </button>
+                    <button class = 'button_style_square_red' id = "delete_point_line_selection" onclick = "set_delete_line_point(true)"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete Point
+                    </button>
+                    <button class = 'button_style_square_red_selected' id = "delete_point_line_deselection"  onclick = "set_delete_line_point(false);"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete Point
+                    </button>
+                    <button class = 'button_style_square_red' id = "delete_line_selection" onclick = "set_delete_line(true)"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete 
+                    </button>
+                    <button class = 'button_style_square_red_selected' id = "delete_line_deselection" onclick = "set_delete_line(false)"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete 
+                    </button>
+                </div>
+
+                <div class = 'back_section' id = "polygons_menu_back_section">
+                    <div> Polygons Menu</div>
+                    <button class = "back_button" onclick="show_polygons_menu(false)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20.057" height="13.66" viewBox="0 0 20.057 13.66">
+                            <g id="Group_77" data-name="Group 77" transform="translate(921.212 -816.407) rotate(90)">
+                            <rect id="Rectangle_49" data-name="Rectangle 49" width="3" height="19" rx="1.5" transform="translate(821.701 901.155)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_50" data-name="Rectangle 50" width="3" height="9.508" rx="1.5" transform="translate(827.946 912.316) rotate(45)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_51" data-name="Rectangle 51" width="3" height="9.519" rx="1.5" transform="matrix(0.719, -0.695, 0.695, 0.719, 816.407, 914.365)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Back
+                    </button>
+                </div>
+                <div id='polygons_menu' class = "options">
+                
+                    <button class = 'button_style_square_create' id = 'create_polygon_selection' onclick = "set_create_polygon(true)"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Create 
+                    </button>
+
+                    <button class = 'button_style_square_create_selected' id = 'create_polygon_deselection' onclick = "set_create_polygon(false)"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="23.845" viewBox="0 0 23.845 23.845">
+                            <g id="Group_71" data-name="Group 71" transform="translate(4.006)">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                            <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Create 
+                    </button>
+
+                    <button class = "button_style_square_purple" onclick = "gps_create_polygon_ui()"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23.845" height="25" viewBox="0 0 23.845 25">
+                            <g id="Group_93" data-name="Group 93" transform="translate(-1624.279 -889)">
+                              <g id="Group_71" data-name="Group 71" transform="translate(1628.285 890.155)">
+                                <rect id="Rectangle_61" data-name="Rectangle 61" width="3" height="23.845" rx="1.5" transform="translate(19.838 20.845) rotate(90)" fill="#fff"/>
+                              </g>
+                              <path id="Exclusion_1" data-name="Exclusion 1" d="M-9410.972,20h0a61.054,61.054,0,0,1-3.529-5.24c-1.6-2.648-3.5-6.317-3.5-8.76a7.091,7.091,0,0,1,.552-2.93,4.533,4.533,0,0,1,1.507-1.841A8.4,8.4,0,0,1-9410.972,0,8.41,8.41,0,0,1-9406,1.229,4.539,4.539,0,0,1-9404.5,3.07a7.1,7.1,0,0,1,.553,2.93c0,2.43-1.894,6.09-3.481,8.732A60.472,60.472,0,0,1-9410.971,20Zm-.061-16a3.162,3.162,0,0,0-3.114,3.2,3.161,3.161,0,0,0,3.114,3.2,3.161,3.161,0,0,0,3.114-3.2A3.162,3.162,0,0,0-9411.032,4Z" transform="translate(11046.971 889)" fill="#fff"/>
+                            </g>
+                          </svg>
+                          GPS Create 
+                    </button>
+                    <button class = "button_style_square_purple" onclick = "autocomplete_polygon_ui()"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24.184" height="18.982" viewBox="0 0 24.184 18.982">
+                            <g id="Group_99" data-name="Group 99" transform="translate(-1857.508 -895.587)">
+                                <g id="Group_93" data-name="Group 93" transform="translate(231)">
+                                <g id="Group_71" data-name="Group 71" transform="translate(1646.202 893.102) rotate(45)">
+                                    <rect id="Rectangle_61" data-name="Rectangle 61" width="3" height="9.311" rx="1.5" transform="translate(5.305 20.845) rotate(90)" fill="#fff"/>
+                                </g>
+                                </g>
+                                <rect id="Rectangle_63" data-name="Rectangle 63" width="3" height="23.845" rx="1.5" transform="translate(1879.571 895.587) rotate(45)" fill="#fff"/>
+                            </g>
+                        </svg>  
+                        Autocomplete
+                    </button>
+                    <button class = 'button_style_square_blue' id = 'edit_polygon_selection' onclick = 'set_edit_polygon(true)'> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.105" height="19.105" viewBox="0 0 19.105 19.105">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.387 -4.474) rotate(45)">
+                                <path id="Path_4" data-name="Path 4" d="M1.5,0A1.5,1.5,0,0,1,3,1.5l.085,19.322c0,.828-1.558,3.024-1.585,3.023S-.089,21.467-.089,20.638L0,1.5A1.5,1.5,0,0,1,1.5,0Z" transform="translate(6.416)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Edit 
+                    </button>
+                    <button class = 'button_style_square_blue_selected' id = 'edit_polygon_deselection' onclick = 'set_edit_polygon(false)'> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.105" height="19.105" viewBox="0 0 19.105 19.105">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.387 -4.474) rotate(45)">
+                                <path id="Path_4" data-name="Path 4" d="M1.5,0A1.5,1.5,0,0,1,3,1.5l.085,19.322c0,.828-1.558,3.024-1.585,3.023S-.089,21.467-.089,20.638L0,1.5A1.5,1.5,0,0,1,1.5,0Z" transform="translate(6.416)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Edit 
+                    </button>
+                    <button class = 'button_style_square_red' id = 'delete_polygon_point_selection' onclick = set_delete_point_polygon(true)> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                                <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                                <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete Point
+                    </button>
+                    <button class = 'button_style_square_red_selected' id = 'delete_polygon_point_deselection' onclick = set_delete_point_polygon(false)> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                                <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                                <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete Point
+                    </button>
+                    <button class = 'button_style_square_red' id = 'delete_polygon_selection' onclick = 'set_delete_polygon(true)'> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                                <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                                <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete
+                    </button>
+                    <button class = 'button_style_square_red_selected' id = 'delete_polygon_deselection' onclick = 'set_delete_polygon(false)'> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18.982" height="18.983" viewBox="0 0 18.982 18.983">
+                            <g id="Group_71" data-name="Group 71" transform="translate(12.324 -4.536) rotate(45)">
+                                <rect id="Rectangle_44" data-name="Rectangle 44" width="3" height="23.845" rx="1.5" transform="translate(6.416)" fill="#3d3d3d"/>
+                                <rect id="Rectangle_60" data-name="Rectangle 60" width="3" height="23.845" rx="1.5" transform="translate(19.838 10.422) rotate(90)" fill="#3d3d3d"/>
+                            </g>
+                        </svg>
+                        Delete
+                    </button>
+                </div>
+                
+            </div>
+        </div>    
+
+        <script>
+            // NEEDED TO HANDLE CANVAS // 
+
+            window.onload = function () {
+                redraw();
+            }
+
+            var canvas_background_image = new Image();
+            var show_background_image = false;
+            var canvas = document.querySelector('canvas');
+            var point_size = 4;
+            var label_font = 'normal 12pt sans-serif';
+            var canvas_height = 500;
+            var canvas_width = 500;
+            var starting_coordinate_x = 0;
+            var starting_coordinate_y = 0;
+            var offset_x = 0;
+            var offset_y = 0;
+            var direction_nav_increment = 10;
+            var scale = 1;
+            var scale_increment = 0.1;
+
+
+            function calculate_canvas_coordinates(x, y, z){
+
+                canvas_coords = {
+                    x: 0,
+                    y: 0, 
+                    z: 0,
+                }
+
+                canvas_coords.x = ((x - starting_coordinate_x)*scale) - offset_x;
+                canvas_coords.y = ((y - starting_coordinate_y)*scale) - offset_y;
+                canvas_coords.z = z;
+
+                return canvas_coords;
+            }
+
+            function redraw() {
+                
+                canvas.height = (canvas_height*scale)  - offset_y;
+                canvas.width = (canvas_width*scale) - offset_x;
+                context = canvas.getContext('2d');
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                //draws image on background of canvas.
+                if (show_background_image){
+                    context.drawImage(canvas_background_image, (0 - offset_x), (0 - offset_y), canvas.width, canvas.height);
+                }
+                else{
+                    context.fillStyle = "white";
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
+                //cycles through all layers in layer_list
+                for (x = 0; x < layer_list.length; x++){
+
+                    //draws all points on canvas. 
+                    for (i = 0; i < layer_list[x].points_list.length; i++) {
+                        context.beginPath();
+                        context.fillStyle = layer_list[x].points_list[i].properties.color;
+                        canvas_coords = calculate_canvas_coordinates(layer_list[x].points_list[i].geometry.coordinates[0], layer_list[x].points_list[i].geometry.coordinates[1], layer_list[x].points_list[i].geometry.coordinates[2]);
+                        context.arc(canvas_coords.x, canvas_coords.y, point_size, 0, 2 * Math.PI);
+                        context.fill();
+
+                        if (layer_list[x].labels_enabled){
+                            context.font = label_font;
+                            context.fillText(
+                                layer_list[x].points_list[i].properties.label,
+                                canvas_coords.x, 
+                                canvas_coords.y
+                            );
+                        }
+                    }
+
+                    //draws all lines on canas
+                    for (i = 0; i < layer_list[x].lines_list.length; i++) {
+                        context.beginPath();
+                        context.fillStyle = layer_list[x].lines_list[i].properties.color;
+                        var canvas_coords = calculate_canvas_coordinates(layer_list[x].lines_list[i].geometry.coordinates[0][0], layer_list[x].lines_list[i].geometry.coordinates[0][1],layer_list[x].lines_list[i].geometry.coordinates[0][2]);
+                        context.arc(canvas_coords.x, canvas_coords.y, point_size, 0, 2 * Math.PI);
+                        context.fill();
+
+                        if (layer_list[x].labels_enabled){
+                            context.font = label_font;
+                            context.fillText(
+                            layer_list[x].lines_list[i].properties.label,
+                                canvas_coords.x, 
+                                canvas_coords.y
+                            );
+                        }
+
+                        for (a = 1; a < layer_list[x].lines_list[i].geometry.coordinates.length; a++) {
+
+                            context.beginPath();
+                            canvas_coords = calculate_canvas_coordinates(layer_list[x].lines_list[i].geometry.coordinates[a][0], layer_list[x].lines_list[i].geometry.coordinates[a][1], layer_list[x].lines_list[i].geometry.coordinates[a][2])
+                            context.arc(canvas_coords.x, canvas_coords.y, point_size, 0, 2 * Math.PI);
+                            context.fill();
+
+                            context.beginPath();
+                            context.strokeStyle = layer_list[x].lines_list[i].properties.color;
+                            context.lineWidth = 2;
+
+                            var canvas_coords_2 = calculate_canvas_coordinates(layer_list[x].lines_list[i].geometry.coordinates[a - 1][0], layer_list[x].lines_list[i].geometry.coordinates[a - 1][1], layer_list[x].lines_list[i].geometry.coordinates[a - 1][2]);
+                            context.moveTo(canvas_coords_2.x, canvas_coords_2.y);
+                            context.lineTo(canvas_coords.x, canvas_coords.y);
+                            context.stroke();
+
+                        }
+                    }
+
+                    //draws all polygons on canvas
+                    for (i = 0; i < layer_list[x].polygons_list.length; i++) {
+                        context.beginPath();
+                        context.fillStyle = layer_list[x].polygons_list[i].properties.color;
+                        var canvas_coords = calculate_canvas_coordinates(layer_list[x].polygons_list[i].geometry.coordinates[0][0], layer_list[x].polygons_list[i].geometry.coordinates[0][1], layer_list[x].polygons_list[i].geometry.coordinates[0][2]);
+                        context.arc(canvas_coords.x, canvas_coords.y, point_size, 0, 2 * Math.PI);
+                        context.fill();
+
+                        if (layer_list[x].labels_enabled){
+                                context.font = label_font;
+                                context.fillText(
+                                    layer_list[x].polygons_list[i].properties.label,
+                                    canvas_coords.x, 
+                                    canvas_coords.y
+                                );
+                        }
+
+                        for (a = 1; a < layer_list[x].polygons_list[i].geometry.coordinates.length; a++) {
+
+                            context.beginPath();
+
+                            canvas_coords = calculate_canvas_coordinates(layer_list[x].polygons_list[i].geometry.coordinates[a][0], layer_list[x].polygons_list[i].geometry.coordinates[a][1], layer_list[x].polygons_list[i].geometry.coordinates[a][2]);
+
+                            context.arc(canvas_coords.x, canvas_coords.y, point_size, 0, 2 * Math.PI);
+                            context.fill();
+
+                            context.beginPath();
+                            context.strokeStyle = layer_list[x].polygons_list[i].properties.color;
+                            context.lineWidth = 2;
+
+                            var canvas_coords_2 = calculate_canvas_coordinates(layer_list[x].polygons_list[i].geometry.coordinates[a - 1][0], layer_list[x].polygons_list[i].geometry.coordinates[a - 1][1], layer_list[x].polygons_list[i].geometry.coordinates[a - 1][2]);
+                            context.moveTo(canvas_coords_2.x, canvas_coords_2.y);
+                            context.lineTo(canvas_coords.x, canvas_coords.y);
+                            context.stroke();
+
+                        }
+                    }
+
+
+                }
+
+            }
+
+            // END CANVAS SHENANIGANS //
+
+            const mediaQuery = window.matchMedia('(max-width: 749px)');
+
+            mediaQuery.addEventListener('change', (event) => {
+
+                //updates display between desktop view and mobile view for points menus if points menu is currently open. 
+                if (document.getElementById('points_menu').style.display != 'none'){
+
+                    //if at mobile breakpoint: 
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'none';
+                        document.getElementById('draw_menu_options').style.display = 'none';
+                        document.getElementById('points_menu_back_section').style.display = "flex"; 
+
+                    }
+                    //if at desktop breakpoint:
+                    else {
+                        //shows the point menu as selected
+                        document.getElementById('hide_point_menu').style.display = "inline-flex";
+                        document.getElementById('show_point_menu').style.display = "none";
+
+                        //shows relevant menu options for desktop that may have been previously hidden with mobile. 
+                        document.getElementById('draw_menu_back_section').style.display = 'flex';
+                        document.getElementById('draw_menu_options').style.display = 'flex';
+                        document.getElementById('points_menu_back_section').style.display = "none"; 
+
+                    }
+                }
+
+                //updates display between desktop view and mobile view for lines menus if lines menu is currently open
+                if (document.getElementById('lines_menu').style.display != 'none'){
+                    //if at mobile breakpoint
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'none';
+                        document.getElementById('draw_menu_options').style.display = 'none';
+                        document.getElementById('lines_menu_back_section').style.display = "flex";
+                    }
+                    //if at desktop breakpoint
+                    else {
+                        //shows the line menu as selected
+                        document.getElementById('hide_line_menu').style.display = "inline-flex";
+                        document.getElementById('show_line_menu').style.display = "none";
+
+                        //shows relevant menu options for desktop that may have been previously hidden with mobile.
+                        document.getElementById('draw_menu_back_section').style.display = 'flex';
+                        document.getElementById('draw_menu_options').style.display = 'flex';
+                        document.getElementById('lines_menu_back_section').style.display = "none";
+
+                    }
+                }
+
+                //updates display between desktop view and mobie view for polygons menus if polygons menu is currently open
+                if (document.getElementById('polygons_menu').style.display != 'none'){
+                    //if at mobile breakpoint
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'none';
+                        document.getElementById('draw_menu_options').style.display = 'none';
+                        document.getElementById('polygons_menu_back_section').style.display = "flex";
+                    }
+                    else {
+                        //shows the line menu as selected
+                        document.getElementById('hide_polygon_menu').style.display = "inline-flex";
+                        document.getElementById('show_polygon_menu').style.display = "none";
+
+                        //shows relevant menu options for desktop that may have been previously hidden with mobile.
+                        document.getElementById('draw_menu_back_section').style.display = 'flex';
+                        document.getElementById('draw_menu_options').style.display = 'flex';
+                        document.getElementById('polygons_menu_back_section').style.display = "none";
+                    }
+                }
+            });
+
+
+            // GIS Bar
+            function show_file_menu(show){
+                if (show){
+                    document.getElementById('file_menu').style.display = 'flex';
+                    document.getElementById('gis_bar').style.display = 'none';
+                }
+                else {
+                    document.getElementById('file_menu').style.display = 'none';
+                    document.getElementById('gis_bar').style.display = 'grid';
+                }
+            }
+
+            function show_map_menu(show){
+                if (show){
+                    document.getElementById('map_menu').style.display = 'flex';
+                    document.getElementById('gis_bar').style.display = 'none';
+                }
+                else {
+                    document.getElementById('map_menu').style.display = 'none';
+                    document.getElementById('gis_bar').style.display = 'grid';
+                }
+            }
+
+            function show_layers_menu(show){
+                if (show) {
+                    document.getElementById('layers_menu').style.display = 'flex';
+                    document.getElementById('gis_bar').style.display = 'none';
+                }
+                else{
+                    document.getElementById('layers_menu').style.display = 'none';
+                    document.getElementById('gis_bar').style.display = 'grid';
+                }
+            }
+
+            function show_draw_menu(show){
+                if (show){
+                    document.getElementById('draw_menu').style.display = 'flex';
+                    document.getElementById('gis_bar').style.display = 'none';
+                    
+                }
+                else {
+                    document.getElementById('draw_menu').style.display = 'none';
+                    document.getElementById('gis_bar').style.display = 'grid';
+                    document.getElementById('polygons_menu').style.display = 'none';  
+                    document.getElementById('points_menu').style.display = 'none';
+                    document.getElementById('lines_menu').style.display = 'none';
+
+
+                    //removes when back button is pressed
+                    show_draw_properties_menu(false);
+                    show_points_menu(false);
+                    show_lines_menu(false);
+                    show_polygons_menu(false);
+                    // document.getElementById('line_properties').style.display = 'none';
+                    // document.getElementById('polygon_properties').style.display = 'none';
+
+                }
+            }
+
+
+            function notification_handling(show, is_success, message){
+                var notification = document.getElementById('notification');
+                if(show){
+                   notification.style.display = 'flex';
+                    if (is_success){
+                        notification.style.backgroundColor = "#77E903";
+                    }
+                    else{
+                        notification.style.backgroundColor = "#FFE200";
+                    }
+                    notification.innerHTML = message;
+                }
+                else {
+                    notification.style.display = 'none';
+                }
+            }
+
+            // Subsection of Draw menu
+
+            function show_create_menu(show){
+                document.getElementById('description_textarea').style.display = 'flex';
+
+                document.getElementById('description_expand').style.display = 'none';
+                document.getElementById('description_collapse').style.display = 'flex';
+
+
+
+            }
+
+            function show_edit_menu(show){
+
+                if (show){
+                    document.getElementById('label_options').style.display = 'none';
+                    document.getElementById('color_options').style.display = 'none';
+                    document.getElementById('description').style.display = 'none';
+                    description_toggle(true);
+                }
+                else {
+                    document.getElementById('label_options').style.display = 'flex';
+                    document.getElementById('color_options').style.display = 'flex';
+                    document.getElementById('description').style.display = 'flex';
+
+                }
+
+            }
+
+
+            function description_toggle(show){
+                if(show){
+                    document.getElementById('description_textarea').style.display = 'none';
+                    document.getElementById('description_collapse').style.display = 'none';
+                    document.getElementById('description_expand').style.display = 'flex';
+                }
+                else{
+                    document.getElementById('description_textarea').style.display = 'flex';
+                    document.getElementById('description_collapse').style.display = 'flex';
+                    document.getElementById('description_expand').style.display = 'none';
+                }
+            }
+
+
+
+            function options_toggle(show){
+                if(show){
+                    // document.getElementById('current_layer').style.display = 'flex';
+                    document.getElementById('collapsible').style.display = "none";
+                    document.getElementById('options_collapse').style.display = 'none';
+                    document.getElementById('options_expand').style.display = 'flex';
+                    document.getElementById('layer_info').style.display = 'flex';
+                }
+                else{
+                    document.getElementById('collapsible').style.display = "block";
+                    document.getElementById('options_collapse').style.display = 'flex';
+                    document.getElementById('options_expand').style.display = 'none';
+                    document.getElementById('layer_info').style.display = 'none';
+                }
+            }
+
+            function options_toggle_edit(show){
+                if(show){
+                    document.getElementById('collapsible_edit').style.display = "none";
+                    document.getElementById('options_collapse_edit').style.display = 'none';
+                    document.getElementById('options_expand_edit').style.display = 'flex';
+                }
+                else{
+                    document.getElementById('collapsible_edit').style.display = "block";
+                    document.getElementById('options_collapse_edit').style.display = 'flex';
+                    document.getElementById('options_expand_edit').style.display = 'none';
+                }
+            }
+
+            function show_draw_properties_menu(show){
+                if (show){
+                    document.getElementById('draw_properties').style.display = 'grid';
+                    refresh_layers();
+                    //if at mobile breakpoint: 
+                    if (mediaQuery.matches){
+                        options_toggle(true);
+                        description_toggle(true);
+                    }
+                    //if at desktop breakpoint:
+                    else {
+                        options_toggle(false);
+                        description_toggle(true);
+                    }
+                }
+                else{
+                    document.getElementById('draw_properties').style.display = 'none';
+                }
+            }
+
+            function show_points_menu(show){
+                if (show){
+                    //displays point menu options and draw properties menu
+                    document.getElementById('points_menu').style.display = 'flex';
+                    show_draw_properties_menu(true);
+
+                    //hides lines menu and polygons menu if displayed
+                    document.getElementById('lines_menu').style.display = 'none';
+                    document.getElementById('polygons_menu').style.display = 'none';
+                    show_lines_menu(false);
+                    show_polygons_menu(false);
+
+                    //if at mobile breakpoint: 
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'none';
+                        document.getElementById('draw_menu_options').style.display = 'none';
+                        document.getElementById('points_menu_back_section').style.display = "flex"; 
+
+                    }
+                    //if at desktop breakpoint:
+                    else {
+                        //shows the point menu as selected
+                        document.getElementById('hide_point_menu').style.display = "inline-flex";
+                        document.getElementById('show_point_menu').style.display = "none";
+
+                        //deselects line or polygon menu if selected. 
+                        document.getElementById('hide_line_menu').style.display = "none";
+                        document.getElementById('show_line_menu').style.display = "inline-flex";
+                        document.getElementById('hide_polygon_menu').style.display = "none";
+                        document.getElementById('show_polygon_menu').style.display = "inline-flex";
+
+                    }
+
+                    set_create_point(true);
+                }
+                else {
+                    //if at mobile breakpoint
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'flex';
+                        document.getElementById('draw_menu_options').style.display = 'flex';
+                        document.getElementById('points_menu_back_section').style.display = "none";
+                    }
+                    //if at desktop breakpoint:
+                    else {
+                        document.getElementById('hide_point_menu').style.display = "none";
+                        document.getElementById('show_point_menu').style.display = "inline-flex";
+                    }
+                    //hides points menu. 
+                    document.getElementById('points_menu').style.display = 'none';
+                    set_create_point(false);
+                    set_edit_point(false);
+                    set_delete_point(false);
+                    //hides draw menu.   
+                    show_draw_properties_menu(false);
+                    set_tool(undefined, undefined);
+                    
+
+                }
+            }
+
+            function set_create_point(enabled){
+                if (enabled){
+                    set_tool(draw_tools.point,draw_functions.create);
+                    document.getElementById('edit_menu').style.display = "none";
+                    show_draw_properties_menu(true);
+                    show_edit_menu(false);
+                    notification_handling(false,false,'');
+                    document.getElementById('create_point_selection').style.display = "none";
+                    document.getElementById('create_point_deselection').style.display = "inline-flex";
+                    document.getElementById('edit_point_selection').style.display = "inline-flex";
+                    document.getElementById('edit_point_deselection').style.display = "none";
+                    document.getElementById('delete_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_deselection').style.display = "none";
+                }
+                else{
+                    set_tool(draw_tools.point, undefined);
+                    document.getElementById('create_point_selection').style.display = "inline-flex";
+                    document.getElementById('create_point_deselection').style.display = "none";
+                }
+            }
+
+            async function gps_create_point_ui(){
+                document.getElementById('edit_menu').style.display = "none";
+                show_draw_properties_menu(true);
+                var point = await create_gps_point(selected_layer,document.getElementById('color').value, document.getElementById('label').value, document.getElementById('description_textarea').value);
+                if (point){
+                    notification_handling(true, true, 'GPS Point Created Successfully!');
+                    setTimeout(function(){
+                        notification_handling(false, true, '!');
+                    }, 2000);
+                } 
+                else{
+                    window.alert('Error creating GPS point. Please ensure location services are enabled');
+                }
+                
+            }
+
+            function set_edit_point(enabled){
+                if (enabled){
+                    set_tool(draw_tools.point,draw_functions.edit);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only edit Points on the selected layer within this sub-menu. Click on a Point to enable the Edit Menu.');
+                    document.getElementById('create_point_selection').style.display = "inline-flex";
+                    document.getElementById('create_point_deselection').style.display = "none";
+                    document.getElementById('edit_point_selection').style.display = "none";
+                    document.getElementById('edit_point_deselection').style.display = "inline-flex";
+                    document.getElementById('delete_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_deselection').style.display = "none";
+                }
+                else{
+                    set_tool(draw_tools.point, undefined);
+                    show_edit_menu(false);
+                    notification_handling(false,false,'');
+                    document.getElementById('edit_point_selection').style.display = "inline-flex";
+                    document.getElementById('edit_point_deselection').style.display = "none";
+                }
+            }
+
+            function set_edit_point_in_menu(selected_point){
+                document.getElementById('layer_dropdown_edit').value = layer_list[selected_layer].points_list[selected_point].properties.layer_index;
+                document.getElementById('label_edit').value = layer_list[selected_layer].points_list[selected_point].properties.label;
+                document.getElementById('color_edit').value = layer_list[selected_layer].points_list[selected_point].properties.color;
+                document.getElementById('description_textarea_edit').value = layer_list[selected_layer].points_list[selected_point].properties.description;
+                document.getElementById('x_coordinate_edit').value = layer_list[selected_layer].points_list[selected_point].geometry.coordinates[0];
+                document.getElementById('y_coordinate_edit').value = layer_list[selected_layer].points_list[selected_point].geometry.coordinates[1];
+                document.getElementById('z_coordinate_edit').value = layer_list[selected_layer].points_list[selected_point].geometry.coordinates[2];
+                document.getElementById('optional_title').innerHTML = "Point Selected";
+                show_edit_menu(false);
+                notification_handling(false,false,'');
+                document.getElementById('edit_menu').style.display = "grid"
+                show_draw_properties_menu(false);
+                
+
+            }
+
+            function save_edits_to_point(){
+
+                if (selected_tool.draw_tool == draw_tools.point){
+                    if (selected_layer != document.getElementById('layer_dropdown_edit').value){
+                        set_coordinates(document.getElementById('x_coordinate_edit').value, document.getElementById('y_coordinate_edit').value, document.getElementById('z_coordinate_edit').value)
+                        create_point(document.getElementById('layer_dropdown_edit').value, document.getElementById('color_edit').value, document.getElementById('label_edit').value, document.getElementById('description_textarea_edit').value);
+                        delete_point(selected_layer, selected_for_edit_or_delete);
+                        renumber_layer_on_properties();
+                    }
+                    else {
+                        layer_list[selected_layer].points_list[selected_for_edit_or_delete].properties.label = document.getElementById('label_edit').value;
+                        layer_list[selected_layer].points_list[selected_for_edit_or_delete].properties.color = document.getElementById('color_edit').value;
+                        layer_list[selected_layer].points_list[selected_for_edit_or_delete].properties.description = document.getElementById('description_textarea_edit').value;
+                        layer_list[selected_layer].points_list[selected_for_edit_or_delete].geometry.coordinates[0] = document.getElementById('x_coordinate_edit').value;
+                        layer_list[selected_layer].points_list[selected_for_edit_or_delete].geometry.coordinates[1] = document.getElementById('y_coordinate_edit').value;
+                        layer_list[selected_layer].points_list[selected_for_edit_or_delete].geometry.coordinates[2] = document.getElementById('z_coordinate_edit').value;
+                    }
+
+                    redraw();
+                    exit_point_edit_menu();
+                }
+
+                else if (selected_tool.draw_tool == draw_tools.line){
+                    if (selected_layer != document.getElementById('layer_dropdown_edit').value){
+                        var line = layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line];
+                        line.properties.label = document.getElementById('label_edit').value;
+                        line.properties.color = document.getElementById('color_edit').value;
+                        line.properties.description = document.getElementById('description_textarea_edit').value;
+                        line.geometry.coordinates[selected_for_edit_or_delete.point][0] = document.getElementById('x_coordinate_edit').value;
+                        line.geometry.coordinates[selected_for_edit_or_delete.point][1] = document.getElementById('y_coordinate_edit').value;
+                        line.geometry.coordinates[selected_for_edit_or_delete.point][2] = document.getElementById('z_coordinate_edit').value;
+                        layer_list[document.getElementById('layer_dropdown_edit').value].lines_list.push(line);
+                        end_line();
+                        delete_line(selected_layer, selected_for_edit_or_delete.line);
+                        renumber_layer_on_properties();
+                    }
+                    else {
+                        layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line].properties.label = document.getElementById('label_edit').value;
+                        layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line].properties.color = document.getElementById('color_edit').value;
+                        layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line].properties.description = document.getElementById('description_textarea_edit').value;
+                        layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line].geometry.coordinates[selected_for_edit_or_delete.point][0] = document.getElementById('x_coordinate_edit').value;
+                        layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line].geometry.coordinates[selected_for_edit_or_delete.point][1] = document.getElementById('y_coordinate_edit').value;
+                        layer_list[selected_layer].lines_list[selected_for_edit_or_delete.line].geometry.coordinates[selected_for_edit_or_delete.point][2] = document.getElementById('z_coordinate_edit').value;
+                    }
+
+                    redraw();
+                    exit_line_edit_menu();
+                }
+
+                else if (selected_tool.draw_tool == draw_tools.polygon){
+                    if (selected_layer != document.getElementById('layer_dropdown_edit').value){
+                        var polygon = layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon];
+                        polygon.properties.label = document.getElementById('label_edit').value;
+                        polygon.properties.color = document.getElementById('color_edit').value;
+                        polygon.properties.description = document.getElementById('description_textarea_edit').value;
+                        polygon.geometry.coordinates[selected_for_edit_or_delete.point][0] = document.getElementById('x_coordinate_edit').value;
+                        polygon.geometry.coordinates[selected_for_edit_or_delete.point][1] = document.getElementById('y_coordinate_edit').value;
+                        polygon.geometry.coordinates[selected_for_edit_or_delete.point][2] = document.getElementById('z_coordinate_edit').value;
+                        auto_close_polygon(selected_layer);
+                        layer_list[document.getElementById('layer_dropdown_edit').value].polygons_list.push(polygon);
+                        delete_polygon(selected_layer, selected_for_edit_or_delete.line);
+                        renumber_layer_on_properties();
+                    }
+                    else {
+                        layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon].properties.label = document.getElementById('label_edit').value;
+                        layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon].properties.color = document.getElementById('color_edit').value;
+                        layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon].properties.description = document.getElementById('description_textarea_edit').value;
+                        layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon].geometry.coordinates[selected_for_edit_or_delete.point][0] = document.getElementById('x_coordinate_edit').value;
+                        layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon].geometry.coordinates[selected_for_edit_or_delete.point][1] = document.getElementById('y_coordinate_edit').value;
+                        layer_list[selected_layer].polygons_list[selected_for_edit_or_delete.polygon].geometry.coordinates[selected_for_edit_or_delete.point][2] = document.getElementById('z_coordinate_edit').value;
+                    }
+
+                    redraw();
+                    exit_polygon_edit_menu();
+                }
+
+                
+            }
+
+            function exit_point_edit_menu(){
+                document.getElementById('edit_menu').style.display = "none";
+                show_draw_properties_menu(true);
+                if (selected_tool.draw_tool == draw_tools.point){
+                    set_edit_point(true);
+                }
+                else if (selected_tool.draw_tool == draw_tools.line){
+                    set_edit_line(true);
+                }
+                else if (selected_tool.draw_tool == draw_tools.polygon){
+                    set_edit_polygon(true);
+                }
+            }
+
+            function set_delete_point(enabled){
+                if (enabled){
+                    set_tool(draw_tools.point,draw_functions.delete);
+                    document.getElementById('edit_menu').style.display = "none";
+                    show_draw_properties_menu(true);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only delete Points on the selected layer within this sub-menu. Click on a Point to delete.');
+                    document.getElementById('create_point_selection').style.display = "inline-flex";
+                    document.getElementById('create_point_deselection').style.display = "none";
+                    document.getElementById('edit_point_selection').style.display = "inline-flex";
+                    document.getElementById('edit_point_deselection').style.display = "none";
+                    document.getElementById('delete_point_selection').style.display = "none";
+                    document.getElementById('delete_point_deselection').style.display = "inline-flex";
+                }
+                else{
+                    set_tool(draw_tools.point, undefined);
+                    notification_handling(false,false,'');
+                    document.getElementById('delete_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_deselection').style.display = "none";
+                }
+            }
+
+            function show_lines_menu(show){
+                if (show){
+                    document.getElementById('lines_menu').style.display = 'flex';
+                    document.getElementById('points_menu').style.display = 'none';
+                    document.getElementById('polygons_menu').style.display = 'none'; 
+                    show_draw_properties_menu(true);
+                    show_points_menu(false);
+                    show_polygons_menu(false);
+
+
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'none';
+                        document.getElementById('draw_menu_options').style.display = 'none';
+                        document.getElementById('lines_menu_back_section').style.display = "flex";
+                    }
+                    else {
+                        //shows the line menu as selected
+                        document.getElementById('hide_line_menu').style.display = "inline-flex";
+                        document.getElementById('show_line_menu').style.display = "none";
+
+                        //deselects points or polygon menu if selected. 
+                        document.getElementById('hide_point_menu').style.display = "none";
+                        document.getElementById('show_point_menu').style.display = "inline-flex";
+                        document.getElementById('hide_polygon_menu').style.display = "none";
+                        document.getElementById('show_polygon_menu').style.display = "inline-flex";
+
+                    }
+                    set_create_line(true);
+                }
+                else {
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'flex';
+                        document.getElementById('draw_menu_options').style.display = 'flex';
+                        document.getElementById('lines_menu_back_section').style.display = "none";
+                    }
+                    else {
+                        document.getElementById('hide_line_menu').style.display = "none";
+                        document.getElementById('show_line_menu').style.display = "inline-flex";
+                    }
+                    //hides lines menu.
+                    document.getElementById('lines_menu').style.display = 'none';
+                    set_create_line(false);
+                    set_edit_line(false);
+                    set_delete_line_point(false);
+                    set_delete_line(false);
+
+                    //hides draw menu
+                    show_draw_properties_menu(false);
+                    set_tool(undefined,undefined)
+                } 
+            }
+
+            function set_create_line(enabled){
+                if (enabled) {
+                    set_tool(draw_tools.line,draw_functions.create);
+                    document.getElementById('edit_menu').style.display = "none";
+                    show_draw_properties_menu(true);
+                    show_edit_menu(false);
+                    notification_handling(false,false,'');
+                    document.getElementById('create_line_selection').style.display = "none";
+                    document.getElementById('create_line_deselection').style.display = "inline-flex";
+                    document.getElementById('edit_line_selection').style.display = "inline-flex";
+                    document.getElementById('edit_line_deselection').style.display = "none";
+                    document.getElementById('delete_point_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_line_deselection').style.display = "none";
+                    document.getElementById('delete_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_line_deselection').style.display = "none";
+                }
+                else{
+                    set_tool(draw_tools.line, undefined);
+                    document.getElementById('create_line_selection').style.display = "inline-flex";
+                    document.getElementById('create_line_deselection').style.display = "none";
+                }
+            }
+
+            async function gps_create_line_ui(){
+                document.getElementById('edit_menu').style.display = "none";
+                show_draw_properties_menu(true);
+                var point = await create_gps_line(selected_layer,document.getElementById('color').value, document.getElementById('label').value, document.getElementById('description_textarea').value);
+                if (point){
+                    notification_handling(true, true, 'GPS Line Created Successfully!');
+                    setTimeout(function(){
+                        notification_handling(false, true, '!');
+                    }, 2000);
+                } 
+                else{
+                    window.alert('Error creating GPS line. Please ensure location services are enabled');
+                }
+            }
+
+            function set_edit_line(enabled){
+                if (enabled){
+                    set_tool(draw_tools.line, draw_functions.edit);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only edit Lines on the selected layer within this sub-menu. Click on a Point within a Line to enable the Edit Menu.')
+                    document.getElementById('create_line_selection').style.display = "inline-flex";
+                    document.getElementById('create_line_deselection').style.display = "none";
+                    document.getElementById('edit_line_selection').style.display = "none";
+                    document.getElementById('edit_line_deselection').style.display = "inline-flex";
+                    document.getElementById('delete_point_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_line_deselection').style.display = "none";
+                    document.getElementById('delete_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_line_deselection').style.display = "none";
+                }
+                else {
+                    set_tool(draw_tools.line, undefined);
+                    show_edit_menu(false);
+                    document.getElementById('create_line_selection').style.display = "inline-flex";
+                    document.getElementById('create_line_deselection').style.display = "none";
+                }
+            }
+
+            function end_line_ui(){
+                end_line();
+                notification_handling(true, true, 'Line Ended!');
+                setTimeout(function(){
+                    notification_handling(false, true, 'Line Ended!');
+                }, 2000);
+            }
+
+            function set_edit_line_in_menu(selected_point){
+                document.getElementById('layer_dropdown_edit').value = layer_list[selected_layer].lines_list[selected_point.line].properties.layer_index;
+                document.getElementById('label_edit').value = layer_list[selected_layer].lines_list[selected_point.line].properties.label;
+                document.getElementById('color_edit').value = layer_list[selected_layer].lines_list[selected_point.line].properties.color;
+                document.getElementById('description_textarea_edit').value = layer_list[selected_layer].lines_list[selected_point.line].properties.description;
+                document.getElementById('x_coordinate_edit').value = layer_list[selected_layer].lines_list[selected_point.line].geometry.coordinates[selected_point.point][0];
+                document.getElementById('y_coordinate_edit').value = layer_list[selected_layer].lines_list[selected_point.line].geometry.coordinates[selected_point.point][1];
+                document.getElementById('z_coordinate_edit').value = layer_list[selected_layer].lines_list[selected_point.line].geometry.coordinates[selected_point.point][2];
+                document.getElementById('optional_title').innerHTML = "Line Selected";
+                show_edit_menu(false);
+                notification_handling(false,false,'');
+                document.getElementById('edit_menu').style.display = "grid"
+                show_draw_properties_menu(false);
+            }
+
+            function exit_line_edit_menu(){
+                document.getElementById('edit_menu').style.display = "none";
+                show_draw_properties_menu(true);
+                set_edit_line(true);
+            }
+
+            function set_delete_line_point(enabled){
+                if (enabled){
+                    set_tool(draw_tools.line, draw_functions.delete_point);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only delete Points within a line on the selected layer within this sub-menu. Click on a Point to delete from its line.')
+                    document.getElementById('create_line_selection').style.display = "inline-flex";
+                    document.getElementById('create_line_deselection').style.display = "none";
+                    document.getElementById('edit_line_selection').style.display = "inline-flex";
+                    document.getElementById('edit_line_deselection').style.display = "none";
+                    document.getElementById('delete_point_line_selection').style.display = "none";
+                    document.getElementById('delete_point_line_deselection').style.display = "inline-flex";
+                    document.getElementById('delete_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_line_deselection').style.display = "none";
+                }
+                else {
+                    set_tool(draw_tools.line, undefined);
+                    show_edit_menu(false);
+                    document.getElementById('delete_point_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_line_deselection').style.display = "none";
+                }
+            }
+
+            function set_delete_line(enabled){
+                if (enabled){
+                    set_tool(draw_tools.line, draw_functions.delete);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only delete Points within a line on the selected layer within this sub-menu. Click on a Point to delete from its line.')
+                    document.getElementById('create_line_selection').style.display = "inline-flex";
+                    document.getElementById('create_line_deselection').style.display = "none";
+                    document.getElementById('edit_line_selection').style.display = "inline-flex";
+                    document.getElementById('edit_line_deselection').style.display = "none";
+                    document.getElementById('delete_point_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_point_line_deselection').style.display = "none";
+                    document.getElementById('delete_line_selection').style.display = "none";
+                    document.getElementById('delete_line_deselection').style.display = "inline-flex";
+                }
+                else {
+                    set_tool(draw_tools.line, undefined);
+                    show_edit_menu(false);
+                    document.getElementById('delete_line_selection').style.display = "inline-flex";
+                    document.getElementById('delete_line_deselection').style.display = "none";
+                }
+            }
+
+            function show_polygons_menu(show){
+                if (show){
+                    document.getElementById('polygons_menu').style.display = 'flex';  
+                    document.getElementById('points_menu').style.display = 'none';
+                    document.getElementById('lines_menu').style.display = 'none';
+                    document.getElementById('draw_properties').style.display = 'grid';
+                    show_points_menu(false);
+                    show_lines_menu(false);
+
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'none';
+                        document.getElementById('draw_menu_options').style.display = 'none';
+                        document.getElementById('polygons_menu_back_section').style.display = "flex";
+                    }
+                    else {
+                        //shows the line menu as selected
+                        document.getElementById('hide_polygon_menu').style.display = "inline-flex";
+                        document.getElementById('show_polygon_menu').style.display = "none";
+
+                        //deselects points or polygon menu if selected. 
+                        document.getElementById('hide_point_menu').style.display = "none";
+                        document.getElementById('show_point_menu').style.display = "inline-flex";
+                        document.getElementById('hide_line_menu').style.display = "none";
+                        document.getElementById('show_line_menu').style.display = "inline-flex";
+
+                    }
+                    set_create_polygon(true);
+                }
+                else {
+                    if (mediaQuery.matches){
+                        document.getElementById('draw_menu_back_section').style.display = 'flex';
+                        document.getElementById('draw_menu_options').style.display = 'flex';
+                        document.getElementById('polygons_menu_back_section').style.display = "none";
+                    }
+                    else {
+                        document.getElementById('hide_polygon_menu').style.display = "none";
+                        document.getElementById('show_polygon_menu').style.display = "inline-flex";
+                    }
+                    //hides polygon menu
+                    document.getElementById('polygons_menu').style.display = 'none';
+                    show_draw_properties_menu(false);
+                    set_create_polygon(false);
+                    set_edit_polygon(false);
+                    set_delete_point_polygon(false);
+                    set_delete_polygon(false);
+
+                    //hides draw menu
+                    show_draw_properties_menu(false);
+                    set_tool(undefined,undefined);
+                }
+            }
+
+            function set_create_polygon(enabled){
+                if (enabled) {
+                    set_tool(draw_tools.polygon,draw_functions.create);
+                    document.getElementById('edit_menu').style.display = "none";
+                    show_draw_properties_menu(true);
+                    show_edit_menu(false);
+                    notification_handling(false,false,'');
+                    document.getElementById('create_polygon_selection').style.display = "none";
+                    document.getElementById('create_polygon_deselection').style.display = "inline-flex";
+                    document.getElementById('edit_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('edit_polygon_deselection').style.display = "none";
+                    document.getElementById('delete_polygon_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_point_deselection').style.display = "none";
+                    document.getElementById('delete_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_deselection').style.display = "none";
+                }
+                else{
+                    set_tool(draw_tools.line, undefined);
+                    document.getElementById('create_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('create_polygon_deselection').style.display = "none";
+                }
+            }
+
+            async function gps_create_polygon_ui(){
+                document.getElementById('edit_menu').style.display = "none";
+                show_draw_properties_menu(true);
+                var point = await create_gps_polygon(selected_layer,document.getElementById('color').value, document.getElementById('label').value, document.getElementById('description_textarea').value);
+                if (point){
+                    notification_handling(true, true, 'GPS Polygon Created Successfully!');
+                    setTimeout(function(){
+                        notification_handling(false, true, '!');
+                    }, 2000);
+                } 
+                else{
+                    window.alert('Error creating GPS polygon. Please ensure location services are enabled');
+                }
+            }
+
+            function autocomplete_polygon_ui(){
+                auto_close_polygon(selected_layer);
+                redraw();
+                notification_handling(true, true, 'Polygon Complete!');
+                    setTimeout(function(){
+                        notification_handling(false, true, '!');
+                    }, 2000);
+            }
+
+            function set_edit_polygon(enabled) {
+                if (enabled){
+                    set_tool(draw_tools.polygon, draw_functions.edit);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only edit Poylgons on the selected layer within this sub-menu. Click on a Point within a Polygon to enable the Edit Menu.')
+                    document.getElementById('create_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('create_polygon_deselection').style.display = "none";
+                    document.getElementById('edit_polygon_selection').style.display = "none";
+                    document.getElementById('edit_polygon_deselection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_point_deselection').style.display = "none";
+                    document.getElementById('delete_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_deselection').style.display = "none";
+                }
+                else {
+                    set_tool(draw_tools.polygon, undefined);
+                    show_edit_menu(false);
+                    document.getElementById('edit_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('create_polygon_deselection').style.display = "none";
+                }
+
+            }
+
+            function set_edit_polygon_in_menu(selected_point){
+                document.getElementById('layer_dropdown_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].properties.layer_index;
+                document.getElementById('label_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].properties.label;
+                document.getElementById('color_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].properties.color;
+                document.getElementById('description_textarea_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].properties.description;
+                document.getElementById('x_coordinate_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].geometry.coordinates[selected_point.point][0];
+                document.getElementById('y_coordinate_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].geometry.coordinates[selected_point.point][1];
+                document.getElementById('z_coordinate_edit').value = layer_list[selected_layer].polygons_list[selected_point.polygon].geometry.coordinates[selected_point.point][2];
+                document.getElementById('optional_title').innerHTML = "Polygon Selected";
+                show_edit_menu(false);
+                notification_handling(false,false,'');
+                document.getElementById('edit_menu').style.display = "grid"
+                show_draw_properties_menu(false);
+            }
+
+            function exit_polygon_edit_menu(){
+                document.getElementById('edit_menu').style.display = "none";
+                show_draw_properties_menu(true);
+                set_edit_polygon(true);
+            }
+
+            function set_delete_point_polygon(enabled){
+                if (enabled){
+                    set_tool(draw_tools.polygon, draw_functions.delete_point);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only delete Points within a Polygon on the selected layer within this sub-menu. Click on a Point to delete from its Polygon.')
+                    document.getElementById('create_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('create_polygon_deselection').style.display = "none";
+                    document.getElementById('edit_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('edit_polygon_deselection').style.display = "none";
+                    document.getElementById('delete_polygon_point_selection').style.display = "none";
+                    document.getElementById('delete_polygon_point_deselection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_deselection').style.display = "none";
+                }
+                else {
+                    set_tool(draw_tools.polygon, undefined);
+                    show_edit_menu(false);
+                    document.getElementById('delete_polygon_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_point_deselection').style.display = "none";
+                }
+            }
+
+            function set_delete_polygon(enabled){
+                if (enabled){
+                    set_tool(draw_tools.polygon, draw_functions.delete);
+                    show_edit_menu(true);
+                    notification_handling(true, false, 'You can only delete Polygons in the selected layer within this sub-menu. Click on a Point within the Polygon to delete.')
+                    document.getElementById('create_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('create_polygon_deselection').style.display = "none";
+                    document.getElementById('edit_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('edit_polygon_deselection').style.display = "none";
+                    document.getElementById('delete_polygon_point_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_point_deselection').style.display = "none";
+                    document.getElementById('delete_polygon_selection').style.display = "none";
+                    document.getElementById('delete_polygon_deselection').style.display = "inline-flex";
+                }
+                else {
+                    set_tool(draw_tools.polygon, undefined);
+                    show_edit_menu(false);
+                    document.getElementById('delete_polygon_selection').style.display = "inline-flex";
+                    document.getElementById('delete_polygon_deselection').style.display = "none";
+                }
+
+            }
+
+            // Subsection of Map Controls Menu
+            function map_direction_buttons(show){
+                if (show){
+                    document.getElementById('map_direction_buttons').style.display = 'grid';
+                    document.getElementById('hide_map_direction_buttons').style.display = "inline-flex";
+                    document.getElementById('show_map_direction_buttons').style.display = 'none';
+                }
+                else {
+                    document.getElementById('map_direction_buttons').style.display = 'none';
+                    document.getElementById('hide_map_direction_buttons').style.display = "none";
+                    document.getElementById('show_map_direction_buttons').style.display = 'inline-flex';
+                }
+            }
+
+            function scale_slider(show){
+                if (show){
+                    document.getElementById('hide_scale_slider').style.display = "inline-flex";
+                    document.getElementById('show_scale_slider').style.display = 'none';
+                    if (mediaQuery.matches){
+                        document.getElementById('scale_buttons').style.display = 'grid';
+                        document.getElementById('current_scale_reading_mobile').style.display = "flex";
+                    }
+                    else{
+                        document.getElementById('scale_slider').style.display = 'grid';
+                    }
+                }
+                else {
+                    document.getElementById('hide_scale_slider').style.display = "none";
+                    document.getElementById('show_scale_slider').style.display = 'inline-flex';
+                    if (mediaQuery.matches){
+                        document.getElementById('scale_buttons').style.display = 'none';
+                        document.getElementById('current_scale_reading_mobile').style.display = "none";
+                    }
+                    else{
+                        document.getElementById('scale_slider').style.display = 'none';
+                    }
+                }
+            }
+
+            function map_size(show){
+                if(show){
+                    document.getElementById('manual_update_map_size').style.display = 'grid';
+                    document.getElementById('show_map_size').style.display = "none";
+                    document.getElementById('hide_map_size').style.display = 'inline-flex';
+                    document.getElementById('map_height_setting').value = canvas_height;
+                    document.getElementById('map_width_setting').value = canvas_width;
+                    document.getElementById('starting_coordinate_x').value = starting_coordinate_x;
+                    document.getElementById('starting_coordinate_y').value = starting_coordinate_y;
+                }
+                else{
+                    document.getElementById('manual_update_map_size').style.display = 'none';
+                    document.getElementById('show_map_size').style.display = "inline-flex";
+                    document.getElementById('hide_map_size').style.display = 'none';
+                }
+            }
+
+            function save_map_size(){
+                canvas_height = document.getElementById('map_height_setting').value;
+                canvas_width = document.getElementById('map_width_setting').value;
+                starting_coordinate_x = parseInt(document.getElementById('starting_coordinate_x').value);
+                starting_coordinate_y = parseInt(document.getElementById('starting_coordinate_y').value);
+                redraw();
+                map_size(false);
+            }
+
+            function direction_up(){
+                if ((offset_y - direction_nav_increment) >= 0){
+                    offset_y = offset_y - direction_nav_increment;
+                    redraw();
+                }
+            }
+
+            function direction_down(){
+                if ((offset_y + direction_nav_increment) <= canvas_height){
+                    offset_y = offset_y + direction_nav_increment;
+                    redraw();
+                }
+            }
+
+            function direction_left(){
+                if ((offset_x - direction_nav_increment) >= 0){
+                    offset_x = offset_x - direction_nav_increment;
+                    redraw();
+                }
+            }
+
+            function direction_right(){
+                if ((offset_x + direction_nav_increment) <= canvas_width){
+                    offset_x = offset_x + direction_nav_increment;
+                    redraw();
+                }
+            }
+
+            function set_scale_by_increment_down(){
+                scale = scale - scale_increment;
+                redraw();
+                document.getElementById('current_scale_reading_mobile').innerHTML = Math.round(scale * 100) + '%';
+
+            }
+
+            function set_scale_by_increment_up(){
+                scale = scale + scale_increment;
+                redraw();
+                document.getElementById('current_scale_reading_mobile').innerHTML = Math.round(scale * 100) + '%';
+            }
+
+            function auto_scale_map(){
+                if (max_x_value - min_x_value == 0 | max_x_value == null){
+                    alert('Insufficient data to set auto scale');
+                    return;
+                }
+                else if (max_y_value - min_y_value == 0 | max_y_value == null){
+                    alert('Insufficient data to set auto scale');
+                    return;
+                }
+
+                var map_margin_x = (max_x_value - min_x_value) * 0.05;
+                var map_margin_y = (max_y_value - min_y_value) * 0.05;
+                var auto_map_width = (max_x_value - min_x_value) + (map_margin_x * 2);
+                var auto_map_height = (max_y_value - min_y_value) + (map_margin_y * 2);
+                var auto_starting_x = min_x_value - map_margin_x;
+                var auto_starting_y = min_y_value - map_margin_y;
+
+                var height_scale = ((window.innerHeight  - document.getElementById('control_bar').offsetHeight)/auto_map_height);
+                var width_scale = ((window.innerWidth)/auto_map_width);
+
+                document.getElementById('map_width_setting').value = auto_map_width;
+                document.getElementById('map_height_setting').value = auto_map_height;
+                document.getElementById('starting_coordinate_x').value = auto_starting_x;
+                document.getElementById('starting_coordinate_y').value = auto_starting_y;
+                save_map_size();
+
+                if (height_scale > width_scale){
+                    scale = width_scale;
+                }
+                else {
+                    scale = height_scale;
+                }
+
+                document.getElementById('current_scale_reading_mobile').innerHTML = 'Current Scale: ' + Math.round(scale * 100) + '%';
+                document.getElementById('scale').value = scale;
+                redraw();
+                
+            }
+
+            //Subsection of Layers Menu
+            function show_layer_panel(show){
+                refresh_layers();
+                if(show){
+                    document.getElementById('show_layer_panel').style.display = 'none';
+                    document.getElementById('hide_layer_panel').style.display = 'inline-flex';
+                    document.getElementById('layer_panel').style.display = 'grid';
+                }
+                else {
+                    document.getElementById('show_layer_panel').style.display = 'inline-flex';
+                    document.getElementById('hide_layer_panel').style.display = 'none';
+                    document.getElementById('layer_panel').style.display = 'none';
+                }
+            }
+
+            function enable_labels(index){
+                id = 'labels_enabled_checkbox_' + index;
+                if (document.getElementById(id).checked){
+                    layer_list[index].labels_enabled = true;
+                }
+                else {
+                    layer_list[index].labels_enabled = false;
+                }
+                redraw();
+                
+            }
+
+            function rename_layer_from_ui(index){
+                var id = 'layer_name_' + index;
+                new_name = document.getElementById(id).value;
+                rename_layer(index,new_name);
+                refresh_layers();
+
+            }
+
+            function create_layer_refresh(){
+                create_layer('New Layer');
+                refresh_layers();
+            }
+
+            function delete_layer_refresh(index){
+                delete_layer(index);
+                if (layer_list.length == 0){
+                    create_layer('New Layer (autocreated)');
+                    selected_layer = 0;
+                }
+                else if (selected_layer > 0){
+                    selected_layer = selected_layer - 1;
+                }
+                refresh_layers();
+                redraw();
+            }
+
+            function select_layer(index){
+                selected_layer = index;
+                refresh_layers();
+            }
+
+            function update_layer_from_dropdown(){
+                end_line();
+                auto_close_polygon(selected_layer);
+                selected_layer = parseInt(document.getElementById('layer_dropdown').value);
+                refresh_layers();
+            }
+
+            function refresh_layers(){
+                
+                var layer_html = "";
+                var layer_selection = document.getElementById("layer_dropdown");
+                var layer_dropdown_edit = document.getElementById("layer_dropdown_edit");
+                layer_selection.innerHTML = "";
+                layer_dropdown_edit.innerHTML = "";
+                for (var i = 0; i < layer_list.length; i++){
+
+                    //populates contents of layer_panel with current layer details. 
+                    layer_html = layer_html + "<button id = 'delete_button' onclick = 'delete_layer_refresh(" + i + ")'> Delete </button>";
+                    layer_html = layer_html + "<input aria-label = 'name' type='text' id = 'layer_name_" + i + "' value= '" + layer_list[i].name + "' onblur = 'rename_layer_from_ui(" + i + ")'>";
+                    layer_html = layer_html + "<input aria-label = 'show labels' type ='checkbox'";
+                    if (layer_list[i].labels_enabled) {
+                        layer_html = layer_html +  " checked='checked'";
+                    }
+                    layer_html = layer_html + " id = 'labels_enabled_checkbox_" + i+ "' onclick = 'enable_labels(" + i + ")'>";
+
+                    //populates contents of layer dropdown wihtin draw_properties menu 
+                    option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = layer_list[i].name;
+                    layer_selection.appendChild(option);
+
+                    option_edit = document.createElement("option");
+                    option_edit.value = i;
+                    option_edit.textContent = layer_list[i].name;
+                    layer_selection.appendChild(option_edit);
+                    layer_dropdown_edit.appendChild(option_edit);
+                }
+                document.getElementById('layers_in_panel').innerHTML = layer_html;
+
+                //sets value of 'current layer' in the draw properties menu. 
+                document.getElementById('current_layer').innerHTML = layer_list[selected_layer].name;
+                layer_selection.value = selected_layer;
+            }
+
+            //Download GeoJSON
+            function export_data() {
+                var json = generate_geoJSON();
+                const a = document.createElement('a');
+                const blob = new Blob([json]);
+                a.href = URL.createObjectURL(blob);
+                a.download = 'gis_export.json';                     //filename to download
+                a.click();
+            }
+
+            //upload GeoJSON
+
+            let fileReader = new FileReader();
+            fileReader.onload = function (event) {
+                var contents = fileReader.result;
+                var parsed_contents = JSON.parse(contents);
+                var features = parsed_contents.features;
+                initialize_gis_project_from_file(features);
+                redraw();
+            }
+
+            function upload_data(){
+                fileReader.readAsText(event.target.files[0]);
+            }
+
+            //upload background image;
+
+            let imageReader = new FileReader();
+            imageReader.onload = function (event) {
+                image_path = imageReader.result;
+                canvas_background_image.src = image_path;
+                show_background_image = true;
+                    canvas_background_image.onload = function(){
+                        redraw();
+                    }
+            };
+
+            document.getElementById('image_upload').onchange = function (event) {
+                imageReader.readAsDataURL(event.target.files[0]);
+            };
+
+            //draw functions
+
+            selected_layer = 0;
+
+            draw_tools = {
+                point: 0,
+                line: 1,
+                polygon: 2
+            };
+
+            draw_functions = {
+                create: 0,
+                edit: 1, 
+                delete_point: 2,
+                delete: 3
+            };
+
+            selected_tool = {
+                draw_tool: undefined,
+                draw_function: undefined
+            };
+
+            function set_tool(tool_index, function_index){
+                selected_tool.draw_tool = tool_index;
+                selected_tool.draw_function = function_index;
+            }
+
+            pointer_coordinates = {
+                x: 0,
+                y: 0,
+                z: 0,
+            }
+
+            real_coordinates = {
+                x: 0,
+                y: 0, 
+                z: 0,
+            }
+
+            selected_for_edit_or_delete = undefined;
+
+            function ui_set_coordinates(){
+
+                pointer_coordinates.x = Math.round(event.clientX);
+                pointer_coordinates.y = Math.round(event.clientY);
+                pointer_coordinates.z = 0;
+
+                real_coordinates.x = ((pointer_coordinates.x + offset_x)/scale) + starting_coordinate_x;
+                real_coordinates.y = ((pointer_coordinates.y + offset_y)/scale) + starting_coordinate_y;
+                real_coordinates.z = pointer_coordinates.z;
+
+                document.getElementById('x_coordinate').innerHTML = real_coordinates.x.toFixed(2);
+                document.getElementById('y_coordinate').innerHTML = real_coordinates.y.toFixed(2);
+                document.getElementById('z_coordinate').innerHTML = real_coordinates.z.toFixed(2);
+
+                set_coordinates(real_coordinates.x, real_coordinates.y, real_coordinates.z);
+
+            }
+
+            //EVENT LISTENERS
+
+            canvas.addEventListener('mousedown', function (event){
+                //if draw function is edit, delete point, or delete, set coordnates and get closest point.
+                if (selected_tool.draw_function > 0){
+                    //NEEDS TO TAKE IN X Y AND Z!!!!
+                    ui_set_coordinates();
+                    if (selected_tool.draw_tool == draw_tools.point){
+                        selected_for_edit_or_delete = select_edit_point(selected_layer);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.line){
+                        selected_for_edit_or_delete = select_edit_line(selected_layer);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.polygon){
+                        selected_for_edit_or_delete = select_edit_polygon(selected_layer);
+                    }
+                }
+            });
+
+            canvas.addEventListener('mouseup', function (event) {
+                //actually does the edit or delete if needed
+
+                if (selected_tool.draw_function == draw_functions.edit){
+
+
+                    ui_set_coordinates();
+                    if (selected_tool.draw_tool == draw_tools.point){
+                        update_point_coordinates(selected_layer, selected_for_edit_or_delete);
+                        set_edit_point_in_menu(selected_for_edit_or_delete);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.line){
+                        update_line_coordinates(selected_layer, selected_for_edit_or_delete);
+                        set_edit_line_in_menu(selected_for_edit_or_delete);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.polygon){
+                        update_polygon_coordinates(selected_layer, selected_for_edit_or_delete);
+                        set_edit_polygon_in_menu(selected_for_edit_or_delete);
+                    }
+                }
+
+                else if (selected_tool.draw_function == draw_functions.delete_point){
+                    if (selected_tool.draw_tool == draw_tools.line){
+                        delete_line_point(selected_layer, selected_for_edit_or_delete);
+                        redraw();
+                        notification_handling(true,true,'Point Deleted Successfully!');
+                        setTimeout(function(){
+                            notification_handling(false, true, '!');
+                        }, 2000);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.polygon){
+                        delete_polygon_point(selected_layer, selected_for_edit_or_delete);
+                        redraw();
+                        notification_handling(true,true,'Point Deleted Successfully!');
+                        setTimeout(function(){
+                            notification_handling(false, true, '!');
+                        }, 2000);
+                    }
+                }
+                else if (selected_tool.draw_function == draw_functions.delete){
+                    if (selected_tool.draw_tool == draw_tools.point){
+                        delete_point(selected_layer, selected_for_edit_or_delete);
+                    }
+                    if (selected_tool.draw_tool == draw_tools.line){
+                        if(selected_for_edit_or_delete.line == (layer_list[selected_layer].lines_list.length - 1)){
+                            end_line();
+                        }
+                        delete_line(selected_layer, selected_for_edit_or_delete);
+                        notification_handling(true, true, 'Line Deleted Successfully!');
+                        setTimeout(function(){
+                            notification_handling(false, true, '!');
+                        }, 2000);
+                    }
+                    if (selected_tool.draw_tool == draw_tools.polygon){
+                        console.log(selected_for_edit_or_delete);
+                        if(selected_for_edit_or_delete.polygon == (layer_list[selected_layer].polygons_list.length - 1)){
+                            polygon_start = true;
+                        }
+                        delete_polygon(selected_layer, selected_for_edit_or_delete);
+                        redraw();
+                        notification_handling(true,true,'Polygon Deleted Successfully!');
+                        setTimeout(function(){
+                            notification_handling(false, true, '!');
+                        }, 2000);
+                    }
+                }
+                
+            });
+
+            canvas.addEventListener('mousemove', function (event) {
+                //need to have a function that sets coordinates based on actual mouse position
+                ui_set_coordinates();
+            });
+
+            canvas.addEventListener('click', function (event) {
+                //creates new line, point, or polygon.
+                ui_set_coordinates();
+                if (selected_tool.draw_function == draw_functions.create){
+
+                    if (selected_tool.draw_tool == draw_tools.point){
+                        create_point(selected_layer,document.getElementById('color').value, document.getElementById('label').value, document.getElementById('description_textarea').value);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.line){
+                        create_line(selected_layer,document.getElementById('color').value, document.getElementById('label').value,  document.getElementById('description_textarea').value);
+                    }
+                    else if (selected_tool.draw_tool == draw_tools.polygon){
+                        create_polygon(selected_layer,document.getElementById('color').value, document.getElementById('label').value, document.getElementById('description_textarea').value, false);
+                    }
+                }
+                
+                redraw();
+            });
+
+            const value = document.querySelector("#current_scale_reading_desktop");
+            const input = document.querySelector("#scale");
+            value.textContent = Math.round(input.value*100) + "%"
+            input.addEventListener("input", (event) => {
+                value.textContent = Math.round(event.target.value*100) + "%";
+                scale = event.target.value;
+                redraw();
+            });
+
+
+        </script>
+
+        <script src = "gis_scripts.js"></script>
+
+    </body>
+
+</html>
